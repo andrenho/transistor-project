@@ -9,7 +9,8 @@ using namespace std::string_literals;
 
 #include "battery/embed.hpp"
 
-UI::UI()
+UI::UI(Game& game)
+    : Graphics(game)
 {
     SDL_Init(SDL_INIT_EVERYTHING);
     TTF_Init();

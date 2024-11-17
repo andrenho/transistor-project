@@ -5,12 +5,9 @@
 
 #include "graphics.hh"
 
-using hr = std::chrono::high_resolution_clock;
-using Duration = decltype(hr::now() - hr::now());
-
 class UI : public Graphics {
 public:
-    UI();
+    UI(Game& game);
     ~UI();
     UI (const UI&) = delete;
     UI& operator=(const UI&) = delete;

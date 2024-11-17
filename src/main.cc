@@ -2,17 +2,10 @@
 
 #include <chrono>
 
+#include "engine/game.hh"
+
 int main()
 {
-    std::unique_ptr<Graphics> graphics = std::make_unique<UI>();
-    graphics->main_loop();
-
-    UI ui;
-    auto last_frame = hr::now();
-    while (ui.running()) {
-        auto new_frame = hr::now();
-        ui.update(new_frame - last_frame);
-        ui.render();
-        last_frame = new_frame;
-    }
+    Game game;
+    UI(game).main_loop();
 }
