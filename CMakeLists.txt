@@ -4,9 +4,9 @@
 
 cmake_minimum_required(VERSION 3.28)
 
-project(template-cpp-sdl-lua
+project(transistor
     VERSION 0.0.1
-    DESCRIPTION "Template for C++/SDL/Lua projects"
+    DESCRIPTION "The transistor project - a digital circuit building game."
     LANGUAGES C CXX ASM
 )
 
