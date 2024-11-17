@@ -3,10 +3,12 @@
 
 #include <chrono>
 
+#include "graphics.hh"
+
 using hr = std::chrono::high_resolution_clock;
 using Duration = decltype(hr::now() - hr::now());
 
-class UI {
+class UI : public Graphics {
 public:
     UI();
     ~UI();
@@ -20,7 +22,6 @@ public:
 
 private:
     void load_resources();
-    void init_imgui();
     void render_game();
     void render_gui();
 
@@ -30,7 +31,6 @@ private:
     struct SDL_Window*   window_;
     struct SDL_Renderer* ren_;
     struct SDL_Texture*  texture_;
-    struct ImGuiIO* io;
 };
 
 #endif

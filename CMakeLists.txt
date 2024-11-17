@@ -57,11 +57,20 @@ pkg_search_module(LUA REQUIRED luajit)
 #
 
 add_executable(${CMAKE_PROJECT_NAME}
-    src/main.cc
-    src/ui/ui.hh
-    src/ui/ui.cc
-    src/lua/luaengine.cc
-    src/lua/luaengine.hh
+        src/main.cc
+        src/ui/ui.hh
+        src/ui/ui.cc
+        src/ui/graphics.hh
+        src/ui/graphics.cc
+        src/lua/luaengine.cc
+        src/lua/luaengine.hh
+        src/engine/toplevel/toplevel.hh
+        src/engine/toplevel/board.cc
+        src/engine/toplevel/board.hh
+        src/engine/component/component.cc
+        src/engine/component/component.hh
+        src/engine/component/transistor.cc
+        src/engine/component/transistor.hh
 )
 
 b_embed(${CMAKE_PROJECT_NAME} resources/images/face.png)

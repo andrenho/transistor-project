@@ -7,10 +7,6 @@ using namespace std::string_literals;
 #include "SDL2/SDL_ttf.h"
 #include "SDL2/SDL_image.h"
 
-#include "imgui.h"
-#include "backends/imgui_impl_sdl2.h"
-#include "backends/imgui_impl_sdlrenderer2.h"
-
 #include "battery/embed.hpp"
 
 UI::UI()
@@ -32,7 +28,6 @@ UI::UI()
     SDL_Log("Current SDL_Renderer: %s", info.name);
 
     load_resources();
-    init_imgui();
 }
 
 void UI::load_resources()
@@ -44,29 +39,8 @@ void UI::load_resources()
 }
 
 
-void UI::init_imgui()
-{
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    io = &ImGui::GetIO();
-    io->ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    io->ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-
-    // Setup Dear ImGui style
-    ImGui::StyleColorsDark();
-    //ImGui::StyleColorsLight();
-
-    // Setup Platform/Renderer backends
-    ImGui_ImplSDL2_InitForSDLRenderer(window_, ren_);
-    ImGui_ImplSDLRenderer2_Init(ren_);
-}
-
 UI::~UI()
 {
-    ImGui_ImplSDLRenderer2_Shutdown();
-    ImGui_ImplSDL2_Shutdown();
-    ImGui::DestroyContext();
-
     if (texture_)
         SDL_DestroyTexture(texture_);
     if (ren_)
@@ -82,8 +56,6 @@ void UI::update(Duration timestep)
 {
     SDL_Event e;
     while (SDL_PollEvent(&e)) {
-
-        ImGui_ImplSDL2_ProcessEvent(&e);
 
         switch (e.type) {
             case SDL_QUIT:

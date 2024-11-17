@@ -2,12 +2,10 @@
 
 #include <chrono>
 
-#include "lua/luaengine.hh"
-
 int main()
 {
-    LuaEngine lua_engine;
-    lua_engine.hello();
+    std::unique_ptr<Graphics> graphics = std::make_unique<UI>();
+    graphics->main_loop();
 
     UI ui;
     auto last_frame = hr::now();
