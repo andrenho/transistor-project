@@ -51,27 +51,12 @@ find_package(SDL2 REQUIRED)
 pkg_search_module(SDL2_TTF REQUIRED SDL2_ttf)
 pkg_search_module(SDL2_IMAGE REQUIRED SDL2_image)
 pkg_search_module(LUA REQUIRED luajit)
-#pkg_search_module(LUA REQUIRED lua5.4)
 
 #
 # executable
 #
 
-set(IMGUI_SRC
-        contrib/imgui/imgui.cpp
-        contrib/imgui/imgui_demo.cpp
-        contrib/imgui/imgui_draw.cpp
-        contrib/imgui/imgui_tables.cpp
-        contrib/imgui/imgui_widgets.cpp
-        contrib/imgui/backends/imgui_impl_sdl2.cpp
-        contrib/imgui/backends/imgui_impl_sdlrenderer2.cpp
-)
-
-# ignore warnings in imported files
-set_source_files_properties(${IMGUI_SRC} PROPERTIES COMPILE_FLAGS "-w")
-
 add_executable(${CMAKE_PROJECT_NAME}
-    ${IMGUI_SRC}
     src/main.cc
     src/ui/ui.hh
     src/ui/ui.cc
