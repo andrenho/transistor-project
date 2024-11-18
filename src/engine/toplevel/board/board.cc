@@ -1,5 +1,10 @@
 #include "board.hh"
 
+void Board::keypress(uint32_t key, ssize_t mouse_x, ssize_t mouse_y)
+{
+    printf("%c\n", key);
+}
+
 void Board::draw(Graphics& graphics) const
 {
     draw_board_borders(graphics);

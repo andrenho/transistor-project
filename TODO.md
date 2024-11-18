@@ -11,6 +11,7 @@ Toplevel
 Board wiring
 - [ ] Wire management (top board only)
 - [ ] Wire removal
+- [ ] Wire crossing
 
 Component creation
 - [ ] Create components: transistor, button, led

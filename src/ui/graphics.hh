@@ -5,6 +5,8 @@
 
 #include "spritesheet.hh"
 
+enum class MouseButton { Left=1, Middle=2, Right=3 };
+
 class Graphics {
 public:
     virtual ~Graphics() = default;

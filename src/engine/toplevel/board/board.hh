@@ -10,6 +10,8 @@ public:
 
     void draw(Graphics& graphics) const override;
 
+    void keypress(uint32_t key, ssize_t mouse_x, ssize_t mouse_y) override;
+
 private:
     ssize_t board_w_ = 10;
     ssize_t board_h_ = 10;
