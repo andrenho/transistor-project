@@ -72,6 +72,8 @@ add_executable(${CMAKE_PROJECT_NAME}
         src/engine/component/transistor.hh
         src/engine/game.hh
         src/ui/spritesheet.hh
+        src/engine/game.cc
+        src/engine/game.cc
 )
 
 b_embed(${CMAKE_PROJECT_NAME} resources/images/bg.jpg)

@@ -70,12 +70,46 @@ void UI::update(Duration timestep)
             case SDL_QUIT:
                 running_ = false;
                 break;
+            case SDL_MOUSEBUTTONDOWN: {
+                auto toplevel = game_.topmost_toplevel_in_pos(e.button.x, e.button.y);
+                if (toplevel) {
+                    game_.bring_to_front(*toplevel);
+                    if (e.button.button == SDL_BUTTON_RIGHT) {
+                        moving_toplevel_ = *toplevel;
+                        SDL_ShowCursor(SDL_DISABLE);
+                    }
+                }
+                break;
+            }
+            case SDL_MOUSEBUTTONUP:
+                if (moving_toplevel_ && e.button.button == SDL_BUTTON_RIGHT) {
+                    moving_toplevel_.reset();
+                    SDL_ShowCursor(SDL_ENABLE);
+                }
+                break;
+            case SDL_MOUSEMOTION:
+                if (moving_toplevel_)
+                    move_toplevel(*moving_toplevel_, e.motion.xrel, e.motion.yrel);
+                break;
             default: break;
         }
 
         if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_q)
             running_ = false;
     }
+}
+
+void UI::move_toplevel(TopLevel* toplevel, int xrel, int yrel)
+{
+    int scr_w, scr_h;
+    SDL_GetWindowSize(window_, &scr_w, &scr_h);
+
+    toplevel->position_x += xrel;
+    toplevel->position_y += yrel;
+
+    int space_left = 3.5 * TILE_SIZE * toplevel->zoom;
+    toplevel->position_x = std::max(std::min(toplevel->position_x, (ssize_t) (scr_w - space_left)), (ssize_t) -toplevel->w() - space_left);
+    toplevel->position_y = std::max(std::min(toplevel->position_y, (ssize_t) (scr_h - space_left)), (ssize_t) -toplevel->h() - space_left);
 }
 
 void UI::render()
@@ -92,8 +126,8 @@ void UI::render_game()
 {
     for (auto const& toplevel : game_.toplevels()) {
         SDL_RenderSetScale(ren_, toplevel->zoom, toplevel->zoom);
-        rel_x_ = toplevel->position_x;
-        rel_y_ = toplevel->position_y;
+        rel_x_ = toplevel->position_x / toplevel->zoom;
+        rel_y_ = toplevel->position_y / toplevel->zoom;
         toplevel->draw(*this);
         rel_x_ = rel_y_ = 0;
         SDL_RenderSetScale(ren_, 1.f, 1.f);

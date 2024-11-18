@@ -26,6 +26,7 @@ public:
 private:
     void load_resources();
     void render_game();
+    void move_toplevel(TopLevel* toplevel, int xrel, int yrel);
 
     Game& game_;
 
@@ -39,6 +40,8 @@ private:
     struct _TTF_Font*    font_ = nullptr;
 
     ssize_t rel_x_ = 0, rel_y_ = 0;
+
+    std::optional<TopLevel*> moving_toplevel_ {};
 };
 
 #endif
