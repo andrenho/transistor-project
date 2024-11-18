@@ -10,11 +10,11 @@ using namespace std::string_literals;
 #include "battery/embed.hpp"
 
 UI::UI(Game& game)
-    : Graphics(game)
+    : game_(game)
 {
     SDL_Init(SDL_INIT_EVERYTHING);
     TTF_Init();
-    IMG_Init(IMG_INIT_PNG);
+    IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 
     window_ = SDL_CreateWindow(PROJECT_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_RESIZABLE);
     if (!window_)
@@ -33,17 +33,20 @@ UI::UI(Game& game)
 
 void UI::load_resources()
 {
-    std::vector<uint8_t> face = b::embed<"resources/images/face.png">().vec();
-    SDL_Surface* sf = IMG_Load_RW(SDL_RWFromMem(face.data(), (int) face.size()), 1);
-    texture_ = SDL_CreateTextureFromSurface(ren_, sf);
+    std::vector<uint8_t> bg = b::embed<"resources/images/bg.jpg">().vec();
+    SDL_Surface* sf = IMG_Load_RW(SDL_RWFromMem(bg.data(), (int) bg.size()), 1);
+    bg_texture_ = SDL_CreateTextureFromSurface(ren_, sf);
     SDL_FreeSurface(sf);
+
+    auto font_file = b::embed<"resources/fonts/04B_03__.TTF">();
+    font_ = TTF_OpenFontRW(SDL_RWFromMem((void *) font_file.data(), (int) font_file.size()), 1, 16);
 }
 
 
 UI::~UI()
 {
-    if (texture_)
-        SDL_DestroyTexture(texture_);
+    if (bg_texture_)
+        SDL_DestroyTexture(bg_texture_);
     if (ren_)
         SDL_DestroyRenderer(ren_);
     if (window_)
@@ -70,46 +73,13 @@ void UI::update(Duration timestep)
 void UI::render()
 {
     // clear screen
-    SDL_SetRenderDrawColor(ren_, 0, 0, 0, SDL_ALPHA_OPAQUE);
-    SDL_RenderClear(ren_);
+    SDL_RenderCopy(ren_, bg_texture_, nullptr, nullptr);
 
     render_game();
-
-    // draw GUI
-    render_gui();
-    SDL_RenderSetScale(ren_, io->DisplayFramebufferScale.x, io->DisplayFramebufferScale.y);
-    ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData(), ren_);
 
     SDL_RenderPresent(ren_);
 }
 
 void UI::render_game()
 {
-    // get window size
-    int scr_w, scr_h;
-    SDL_GetWindowSize(window_, &scr_w, &scr_h);
-
-    // draw face texture
-    int tx_w, tx_h;
-    SDL_QueryTexture(texture_, nullptr, nullptr, &tx_w, &tx_h);
-    SDL_Rect dest = {
-        .x = (scr_w / 2) - (tx_w / 2),
-        .y = (scr_h / 2) - (tx_h / 2),
-        .w = tx_w,
-        .h = tx_h,
-    };
-    SDL_RenderCopy(ren_, texture_, nullptr, &dest);
-}
-
-
-void UI::render_gui()
-{
-    ImGui_ImplSDLRenderer2_NewFrame();
-    ImGui_ImplSDL2_NewFrame();
-    ImGui::NewFrame();
-
-    if (show_demo_window_)
-        ImGui::ShowDemoWindow(&show_demo_window_);
-
-    ImGui::Render();
 }

@@ -61,7 +61,6 @@ add_executable(${CMAKE_PROJECT_NAME}
         src/ui/ui.hh
         src/ui/ui.cc
         src/ui/graphics.hh
-        src/ui/graphics.cc
         src/lua/luaengine.cc
         src/lua/luaengine.hh
         src/engine/toplevel/toplevel.hh
@@ -74,7 +73,9 @@ add_executable(${CMAKE_PROJECT_NAME}
         src/engine/game.hh
 )
 
-b_embed(${CMAKE_PROJECT_NAME} resources/images/face.png)
+b_embed(${CMAKE_PROJECT_NAME} resources/images/bg.jpg)
+b_embed(${CMAKE_PROJECT_NAME} resources/images/circuit.png)
+b_embed(${CMAKE_PROJECT_NAME} resources/fonts/04B_03__.TTF)
 b_embed(${CMAKE_PROJECT_NAME} resources/scripts/hello.lua)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")

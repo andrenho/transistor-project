@@ -3,8 +3,8 @@
 # Phase 1 - simple circuits
 
 Toplevel
-- [ ] Create object infrastructure
-  - [ ] Graphic library interface
+- [x] Create object infrastructure
+  - [x] Graphic library interface
 - [ ] Draw toplevel (board)
 - [ ] Drag toplevels around
 

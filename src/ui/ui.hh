@@ -4,6 +4,10 @@
 #include <chrono>
 
 #include "graphics.hh"
+#include "engine/game.hh"
+
+using hr = std::chrono::high_resolution_clock;
+using Duration = decltype(hr::now() - hr::now());
 
 class UI : public Graphics {
 public:
@@ -20,14 +24,16 @@ public:
 private:
     void load_resources();
     void render_game();
-    void render_gui();
+
+    Game& game_;
 
     bool running_ = true;
     bool show_demo_window_ = true;
 
     struct SDL_Window*   window_;
     struct SDL_Renderer* ren_;
-    struct SDL_Texture*  texture_;
+    struct SDL_Texture*  bg_texture_ = nullptr;
+    struct _TTF_Font*    font_ = nullptr;
 };
 
 #endif

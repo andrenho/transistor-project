@@ -12,8 +12,8 @@ public:
     [[nodiscard]] std::vector<std::unique_ptr<TopLevel>> const& toplevels() const { return toplevels_; }
 
 private:
-    std::vector<std::unique_ptr<TopLevel>> toplevels_ = {
-        std::make_unique<Board>()
+    std::vector<std::unique_ptr<TopLevel>> toplevels_ {
+        // std::make_unique<Board>()
     };
 };
 
