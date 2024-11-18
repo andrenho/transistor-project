@@ -7,6 +7,7 @@ using namespace std::string_literals;
 #include "SDL2/SDL_ttf.h"
 #include "SDL2/SDL_image.h"
 
+#include "spritesheet.hh"
 #include "battery/embed.hpp"
 
 UI::UI(Game& game)
@@ -65,6 +66,9 @@ void UI::update(Duration timestep)
                 break;
             default: break;
         }
+
+        if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_q)
+            running_ = false;
     }
 }
 
@@ -80,4 +84,13 @@ void UI::render()
 
 void UI::render_game()
 {
+    for (auto const& toplevel : game_.toplevels()) {
+        SDL_RenderSetScale(ren_, toplevel->zoom, toplevel->zoom);
+        toplevel->draw(*this, toplevel->x, toplevel->y);
+    }
+}
+
+void UI::draw_from_atlas(Sprite sprite, ssize_t x, ssize_t) const
+{
+    // TODO
 }

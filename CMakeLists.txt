@@ -64,13 +64,14 @@ add_executable(${CMAKE_PROJECT_NAME}
         src/lua/luaengine.cc
         src/lua/luaengine.hh
         src/engine/toplevel/toplevel.hh
-        src/engine/toplevel/board.cc
-        src/engine/toplevel/board.hh
+        src/engine/toplevel/board/board.cc
+        src/engine/toplevel/board/board.hh
         src/engine/component/component.cc
         src/engine/component/component.hh
         src/engine/component/transistor.cc
         src/engine/component/transistor.hh
         src/engine/game.hh
+        src/ui/spritesheet.hh
 )
 
 b_embed(${CMAKE_PROJECT_NAME} resources/images/bg.jpg)

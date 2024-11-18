@@ -21,6 +21,8 @@ public:
 
     [[nodiscard]] bool running() const { return running_; }
 
+    void draw_from_atlas(Sprite sprite, ssize_t x, ssize_t) const override;
+
 private:
     void load_resources();
     void render_game();
