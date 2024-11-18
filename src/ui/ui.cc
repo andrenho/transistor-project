@@ -16,7 +16,7 @@ UI::UI(Game& game)
     TTF_Init();
     IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 
-    window_ = SDL_CreateWindow(PROJECT_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_RESIZABLE);
+    window_ = SDL_CreateWindow(PROJECT_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1024, 800, SDL_WINDOW_RESIZABLE);
     if (!window_)
         throw std::runtime_error("Error: SDL_CreateWindow(): "s + SDL_GetError());
 
@@ -45,12 +45,10 @@ void UI::load_resources()
 
 UI::~UI()
 {
-    if (bg_texture_)
-        SDL_DestroyTexture(bg_texture_);
-    if (ren_)
-        SDL_DestroyRenderer(ren_);
-    if (window_)
-        SDL_DestroyWindow(window_);
+    if (font_)       TTF_CloseFont(font_);
+    if (bg_texture_) SDL_DestroyTexture(bg_texture_);
+    if (ren_)        SDL_DestroyRenderer(ren_);
+    if (window_)     SDL_DestroyWindow(window_);
     IMG_Quit();
     TTF_Quit();
     SDL_Quit();
