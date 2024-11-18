@@ -21,7 +21,7 @@ public:
 
     [[nodiscard]] bool running() const { return running_; }
 
-    void draw_from_atlas(Sprite sprite, ssize_t x, ssize_t y, bool semitransparent=false) const override;
+    void draw(Sprite sprite, ssize_t x, ssize_t y, bool semitransparent) const override;
 
 private:
     void load_resources();

@@ -100,7 +100,7 @@ void UI::render_game()
     }
 }
 
-void UI::draw_from_atlas(Sprite sprite, ssize_t x, ssize_t y, bool semitransparent) const
+void UI::draw(Sprite sprite, ssize_t x, ssize_t y, bool semitransparent) const
 {
     auto const& r = sprite_coordinates[(size_t) sprite];
     SDL_Rect src { .x = r.x * TILE_SIZE, .y = r.y * TILE_SIZE, .w = r.w * TILE_SIZE, .h = r.h * TILE_SIZE };
