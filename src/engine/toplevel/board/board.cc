@@ -3,6 +3,9 @@
 void Board::draw(Graphics& graphics) const
 {
     draw_board_borders(graphics);
+    for (size_t x = 0; x < board_w_; ++x)
+        for (size_t y = 0; y < board_h_; ++y)
+            draw_tile(graphics, x, y);
 }
 
 void Board::draw_board_borders(Graphics& graphics) const
@@ -21,4 +24,9 @@ void Board::draw_board_borders(Graphics& graphics) const
         graphics.draw(Sprite::BoardLeft, 0 * TILE_SIZE, (y + 2) * TILE_SIZE);
         graphics.draw(Sprite::BoardRight, (board_w_ + 2) * TILE_SIZE, (y + 2) * TILE_SIZE);
     }
+}
+
+void Board::draw_tile(Graphics& graphics, size_t x, size_t y) const
+{
+    graphics.draw(Sprite::Tile, (x + 2) * TILE_SIZE, (y + 2) * TILE_SIZE);
 }
