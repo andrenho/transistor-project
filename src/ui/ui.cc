@@ -39,6 +39,11 @@ void UI::load_resources()
     bg_texture_ = SDL_CreateTextureFromSurface(ren_, sf);
     SDL_FreeSurface(sf);
 
+    std::vector<uint8_t> circuit = b::embed<"resources/images/circuit.png">().vec();
+    sf = IMG_Load_RW(SDL_RWFromMem(circuit.data(), (int) circuit.size()), 1);
+    circuit_texture_ = SDL_CreateTextureFromSurface(ren_, sf);
+    SDL_FreeSurface(sf);
+
     auto font_file = b::embed<"resources/fonts/04B_03__.TTF">();
     font_ = TTF_OpenFontRW(SDL_RWFromMem((void *) font_file.data(), (int) font_file.size()), 1, 16);
 }
@@ -46,10 +51,11 @@ void UI::load_resources()
 
 UI::~UI()
 {
-    if (font_)       TTF_CloseFont(font_);
-    if (bg_texture_) SDL_DestroyTexture(bg_texture_);
-    if (ren_)        SDL_DestroyRenderer(ren_);
-    if (window_)     SDL_DestroyWindow(window_);
+    if (font_)            TTF_CloseFont(font_);
+    if (bg_texture_)      SDL_DestroyTexture(bg_texture_);
+    if (circuit_texture_) SDL_DestroyTexture(circuit_texture_);
+    if (ren_)             SDL_DestroyRenderer(ren_);
+    if (window_)          SDL_DestroyWindow(window_);
     IMG_Quit();
     TTF_Quit();
     SDL_Quit();
@@ -86,11 +92,19 @@ void UI::render_game()
 {
     for (auto const& toplevel : game_.toplevels()) {
         SDL_RenderSetScale(ren_, toplevel->zoom, toplevel->zoom);
-        toplevel->draw(*this, toplevel->x, toplevel->y);
+        rel_x_ = toplevel->x;
+        rel_y_ = toplevel->y;
+        toplevel->draw(*this);
+        rel_x_ = rel_y_ = 0;
+        SDL_RenderSetScale(ren_, 1.f, 1.f);
     }
 }
 
-void UI::draw_from_atlas(Sprite sprite, ssize_t x, ssize_t) const
+void UI::draw_from_atlas(Sprite sprite, ssize_t x, ssize_t y, bool semitransparent) const
 {
-    // TODO
+    auto const& r = sprite_coordinates[(size_t) sprite];
+    SDL_Rect src { .x = r.x * TILE_SIZE, .y = r.y * TILE_SIZE, .w = r.w * TILE_SIZE, .h = r.h * TILE_SIZE };
+    SDL_Rect dest = { .x = (int) (rel_x_ + (x * TILE_SIZE)), .y = (int) (rel_y_ + (y * TILE_SIZE)), .w = src.w, .h = src.h };
+    SDL_SetTextureAlphaMod(circuit_texture_, semitransparent ? 128 : 255);
+    SDL_RenderCopy(ren_, circuit_texture_, &src, &dest);
 }

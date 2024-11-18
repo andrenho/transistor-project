@@ -21,7 +21,7 @@ public:
 
     [[nodiscard]] bool running() const { return running_; }
 
-    void draw_from_atlas(Sprite sprite, ssize_t x, ssize_t) const override;
+    void draw_from_atlas(Sprite sprite, ssize_t x, ssize_t y, bool semitransparent=false) const override;
 
 private:
     void load_resources();
@@ -35,7 +35,10 @@ private:
     struct SDL_Window*   window_;
     struct SDL_Renderer* ren_;
     struct SDL_Texture*  bg_texture_ = nullptr;
+    struct SDL_Texture*  circuit_texture_ = nullptr;
     struct _TTF_Font*    font_ = nullptr;
+
+    ssize_t rel_x_ = 0, rel_y_ = 0;
 };
 
 #endif

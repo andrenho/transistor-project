@@ -1,6 +1,6 @@
 #include "board.hh"
 
-void Board::draw(Graphics& graphics, ssize_t rel_x, ssize_t rel_y) const
+void Board::draw(Graphics& graphics) const
 {
-    graphics.
+    graphics.draw_from_atlas(Sprite::BoardTopLeft, 0, 0);
 }

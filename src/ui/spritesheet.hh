@@ -12,6 +12,8 @@ enum class Sprite {
     WireTopOffNorth_1, WireTopOffEast_1, WireTopOffWest_1, WireTopOffSouth_1,
 };
 
+static constexpr uint8_t TILE_SIZE = 16;
+
 constexpr struct {
     uint8_t x = 0;
     uint8_t y = 0;

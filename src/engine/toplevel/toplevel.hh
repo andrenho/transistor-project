@@ -11,7 +11,7 @@ public:
     virtual size_t w() const = 0;   // width, in pixels
     virtual size_t h() const = 0;   // height, in pixels
 
-    virtual void draw(Graphics& graphics, ssize_t rel_x, ssize_t rel_y) const = 0;
+    virtual void draw(Graphics& graphics) const = 0;
 };
 
 #endif //TOPLEVEL_HH
