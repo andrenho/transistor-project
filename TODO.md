@@ -5,7 +5,7 @@
 Toplevel
 - [x] Create object infrastructure
   - [x] Graphic library interface
-- [ ] Draw toplevel (board)
+- [x] Draw toplevel (board)
 - [ ] Drag toplevels around
 
 Board wiring
