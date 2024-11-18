@@ -92,8 +92,8 @@ void UI::render_game()
 {
     for (auto const& toplevel : game_.toplevels()) {
         SDL_RenderSetScale(ren_, toplevel->zoom, toplevel->zoom);
-        rel_x_ = toplevel->x;
-        rel_y_ = toplevel->y;
+        rel_x_ = toplevel->position_x;
+        rel_y_ = toplevel->position_y;
         toplevel->draw(*this);
         rel_x_ = rel_y_ = 0;
         SDL_RenderSetScale(ren_, 1.f, 1.f);
@@ -104,7 +104,7 @@ void UI::draw(Sprite sprite, ssize_t x, ssize_t y, bool semitransparent) const
 {
     auto const& r = sprite_coordinates[(size_t) sprite];
     SDL_Rect src { .x = r.x * TILE_SIZE, .y = r.y * TILE_SIZE, .w = r.w * TILE_SIZE, .h = r.h * TILE_SIZE };
-    SDL_Rect dest = { .x = (int) (rel_x_ + (x * TILE_SIZE)), .y = (int) (rel_y_ + (y * TILE_SIZE)), .w = src.w, .h = src.h };
+    SDL_Rect dest = { .x = (int) (rel_x_ + x), .y = (int) (rel_y_ + y), .w = src.w, .h = src.h };
     SDL_SetTextureAlphaMod(circuit_texture_, semitransparent ? 128 : 255);
     SDL_RenderCopy(ren_, circuit_texture_, &src, &dest);
 }

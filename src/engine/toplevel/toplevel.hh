@@ -5,7 +5,7 @@
 
 class TopLevel {
 public:
-    ssize_t x = 0, y = 0;           // position, in pixels
+    ssize_t position_x = 0, position_y = 0;           // position, in pixels
     float zoom = 2.f;
 
     virtual size_t w() const = 0;   // width, in pixels
