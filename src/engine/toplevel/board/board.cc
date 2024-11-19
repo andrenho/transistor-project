@@ -1,5 +1,7 @@
 #include "board.hh"
 
+#include <stdexcept>
+
 void Board::event_key_press(uint32_t key, ssize_t mouse_x, ssize_t mouse_y)
 {
     if (key == 'w') {
@@ -67,7 +69,23 @@ void Board::draw_tile(Graphics& graphics, Position const& pos) const
 
 void Board::draw_wires(Graphics& graphics, Position const& pos, WireSet const& wcs, bool semitransparent) const
 {
+    static const std::unordered_map<WireConfiguration, Sprite> wire_sprites {
+        { { WireWidth::W1, WireSide::Top, Direction::N, true }, Sprite::WireTopOnNorth_1 },
+        { { WireWidth::W1, WireSide::Top, Direction::S, true }, Sprite::WireTopOnSouth_1 },
+        { { WireWidth::W1, WireSide::Top, Direction::W, true }, Sprite::WireTopOnWest_1 },
+        { { WireWidth::W1, WireSide::Top, Direction::E, true }, Sprite::WireTopOnEast_1 },
+        { { WireWidth::W1, WireSide::Top, Direction::N, false }, Sprite::WireTopOffNorth_1 },
+        { { WireWidth::W1, WireSide::Top, Direction::S, false }, Sprite::WireTopOffSouth_1 },
+        { { WireWidth::W1, WireSide::Top, Direction::W, false }, Sprite::WireTopOffWest_1 },
+        { { WireWidth::W1, WireSide::Top, Direction::E, false }, Sprite::WireTopOffEast_1 },
+    };
 
+    for (WireConfiguration const& wc: wcs) {
+        auto it = wire_sprites.find(wc);
+        if (it != wire_sprites.end())
+            throw std::runtime_error("Wire configuration not found");
+        graphics.draw(it->second, (pos.x + 2) * TILE_SIZE, (pos.y + 2) * TILE_SIZE, semitransparent);
+    }
 }
 
 Position Board::mouse_to_tile(ssize_t mx, ssize_t my)
