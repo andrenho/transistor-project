@@ -5,7 +5,7 @@
 void Board::event_key_press(uint32_t key, ssize_t mouse_x, ssize_t mouse_y)
 {
     if (key == 'w') {
-        wire_management_.start_drawing(mouse_to_tile(mouse_x, mouse_y));
+        wire_management_.start_drawing(mouse_to_tile(mouse_x, mouse_y), WireWidth::W1, WireSide::Top);
     }
 }
 
