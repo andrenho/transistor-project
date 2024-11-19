@@ -74,6 +74,10 @@ add_executable(${CMAKE_PROJECT_NAME}
         src/ui/spritesheet.hh
         src/engine/game.cc
         src/engine/game.cc
+        src/engine/toplevel/board/wiremanagement.cc
+        src/engine/toplevel/board/wiremanagement.hh
+        src/engine/position.hh
+        src/engine/toplevel/board/wireconfiguration.hh
 )
 
 b_embed(${CMAKE_PROJECT_NAME} resources/images/bg.jpg)

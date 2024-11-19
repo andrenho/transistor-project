@@ -78,7 +78,7 @@ void UI::update(Duration timestep)
                         moving_toplevel_ = *toplevel;
                         SDL_ShowCursor(SDL_DISABLE);
                     } else {
-                        (*toplevel)->mouse_click(e.button.x - (*toplevel)->position_x, e.button.y - (*toplevel)->position_y, (MouseButton) e.button.button);
+                        (*toplevel)->event_mouse_click(e.button.x - (*toplevel)->position_x, e.button.y - (*toplevel)->position_y, (MouseButton) e.button.button);
                     }
                 }
                 break;
@@ -87,23 +87,32 @@ void UI::update(Duration timestep)
                 if (moving_toplevel_ && e.button.button == SDL_BUTTON_RIGHT) {
                     moving_toplevel_.reset();
                     SDL_ShowCursor(SDL_ENABLE);
+                } else {
+                    auto toplevel = game_.topmost_toplevel_in_pos(e.button.x, e.button.y);
+                    if (toplevel)
+                        (*toplevel)->event_mouse_release(e.button.x - (*toplevel)->position_x, e.button.y - (*toplevel)->position_y, (MouseButton) e.button.button);
                 }
                 break;
             case SDL_MOUSEMOTION: {
                 auto toplevel = game_.topmost_toplevel_in_pos(e.motion.x, e.motion.y);
                 if (toplevel)
-                    (*toplevel)->mouse_move(e.motion.x - (*toplevel)->position_x, e.motion.y - (*toplevel)->position_y, e.motion.xrel, e.motion.yrel);
+                    (*toplevel)->event_mouse_move(e.motion.x - (*toplevel)->position_x, e.motion.y - (*toplevel)->position_y, e.motion.xrel, e.motion.yrel);
                 if (moving_toplevel_)
                     move_toplevel(*moving_toplevel_, e.motion.xrel, e.motion.yrel);
                 break;
             }
+            case SDL_KEYUP:
             case SDL_KEYDOWN: {
                 if (e.key.repeat == 0) {
                     int mx, my;
                     SDL_GetMouseState(&mx, &my);
                     auto toplevel = game_.topmost_toplevel_in_pos(mx, my);
-                    if (toplevel)
-                        (*toplevel)->keypress(e.key.keysym.sym, mx - (*toplevel)->position_x, my - (*toplevel)->position_y);
+                    if (toplevel) {
+                        if (e.key.state == SDL_PRESSED)
+                            (*toplevel)->event_key_press(e.key.keysym.sym, mx - (*toplevel)->position_x, my - (*toplevel)->position_y);
+                        else
+                            (*toplevel)->event_key_release(e.key.keysym.sym, mx - (*toplevel)->position_x, my - (*toplevel)->position_y);
+                    }
                 }
                 break;
             }

@@ -1,16 +1,30 @@
 #include "board.hh"
 
-void Board::keypress(uint32_t key, ssize_t mouse_x, ssize_t mouse_y)
+void Board::event_key_press(uint32_t key, ssize_t mouse_x, ssize_t mouse_y)
 {
-    printf("%c\n", key);
+    if (key == 'w') {
+        wire_management_.start_drawing(mouse_to_tile(mouse_x, mouse_y));
+    }
+}
+
+void Board::event_key_release(uint32_t key, ssize_t mouse_x, ssize_t mouse_y)
+{
+    if (key == 'w') {
+        wires_ = wire_management_.stop_drawing(mouse_to_tile(mouse_x, mouse_y));
+    }
+}
+
+void Board::event_mouse_move(ssize_t x, ssize_t y, ssize_t xrel, ssize_t yrel)
+{
+    wire_management_.set_current_end(mouse_to_tile(x, y));
 }
 
 void Board::draw(Graphics& graphics) const
 {
     draw_board_borders(graphics);
-    for (size_t x = 0; x < board_w_; ++x)
-        for (size_t y = 0; y < board_h_; ++y)
-            draw_tile(graphics, x, y);
+    for (ssize_t x = 0; x < board_w_; ++x)
+        for (ssize_t y = 0; y < board_h_; ++y)
+            draw_tile(graphics, { x, y });
 }
 
 void Board::draw_board_borders(Graphics& graphics) const
@@ -31,7 +45,35 @@ void Board::draw_board_borders(Graphics& graphics) const
     }
 }
 
-void Board::draw_tile(Graphics& graphics, size_t x, size_t y) const
+void Board::draw_tile(Graphics& graphics, Position const& pos) const
 {
-    graphics.draw(Sprite::Tile, (x + 2) * TILE_SIZE, (y + 2) * TILE_SIZE);
+    graphics.draw(Sprite::Tile, (pos.x + 2) * TILE_SIZE, (pos.y + 2) * TILE_SIZE);
+
+    // draw wire
+    {
+        auto it = wires_.find(pos);
+        if (it != wires_.end())
+            draw_wires(graphics, pos, it->second, false);
+    }
+
+    // draw temporary wire
+    {
+        auto const& cd = wire_management_.current_drawing();
+        auto it = cd.find(pos);
+        if (it != cd.end())
+            draw_wires(graphics, pos, it->second, true);
+    }
+}
+
+void Board::draw_wires(Graphics& graphics, Position const& pos, WireSet const& wcs, bool semitransparent) const
+{
+
+}
+
+Position Board::mouse_to_tile(ssize_t mx, ssize_t my)
+{
+    return {
+        .x = mx / TILE_SIZE - 2,
+        .y = my / TILE_SIZE - 2,
+    };
 }
