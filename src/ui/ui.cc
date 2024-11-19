@@ -88,9 +88,8 @@ void UI::update(Duration timestep)
                     moving_toplevel_.reset();
                     SDL_ShowCursor(SDL_ENABLE);
                 } else {
-                    auto toplevel = game_.topmost_toplevel_in_pos(e.button.x, e.button.y);
-                    if (toplevel)
-                        (*toplevel)->event_mouse_release(e.button.x - (*toplevel)->position_x, e.button.y - (*toplevel)->position_y, (MouseButton) e.button.button);
+                    for (auto& tl: game_.toplevels())
+                        tl->event_mouse_release(e.button.x - tl->position_x, e.button.y - tl->position_y, (MouseButton) e.button.button);
                 }
                 break;
             case SDL_MOUSEMOTION: {
@@ -101,17 +100,20 @@ void UI::update(Duration timestep)
                     move_toplevel(*moving_toplevel_, e.motion.xrel, e.motion.yrel);
                 break;
             }
-            case SDL_KEYUP:
+            case SDL_KEYUP: {
+                int mx, my;
+                SDL_GetMouseState(&mx, &my);
+                for (auto& tl: game_.toplevels())
+                    tl->event_key_release(e.key.keysym.sym, mx - tl->position_x, my - tl->position_y);
+                break;
+            }
             case SDL_KEYDOWN: {
                 if (e.key.repeat == 0) {
                     int mx, my;
                     SDL_GetMouseState(&mx, &my);
                     auto toplevel = game_.topmost_toplevel_in_pos(mx, my);
                     if (toplevel) {
-                        if (e.key.state == SDL_PRESSED)
-                            (*toplevel)->event_key_press(e.key.keysym.sym, mx - (*toplevel)->position_x, my - (*toplevel)->position_y);
-                        else
-                            (*toplevel)->event_key_release(e.key.keysym.sym, mx - (*toplevel)->position_x, my - (*toplevel)->position_y);
+                        (*toplevel)->event_key_press(e.key.keysym.sym, mx - (*toplevel)->position_x, my - (*toplevel)->position_y);
                     }
                 }
                 break;

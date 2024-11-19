@@ -9,7 +9,7 @@ Toplevel
 - [x] Drag toplevels around
 
 Board wiring
-- [ ] Wire management (top board only)
+- [x] Wire management (top board only)
 - [ ] Wire removal
 - [ ] Wire crossing
 

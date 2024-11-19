@@ -2,6 +2,10 @@
 
 #include <stdexcept>
 
+//
+// EVENTS
+//
+
 void Board::event_key_press(uint32_t key, ssize_t mouse_x, ssize_t mouse_y)
 {
     if (key == 'w') {
@@ -12,7 +16,7 @@ void Board::event_key_press(uint32_t key, ssize_t mouse_x, ssize_t mouse_y)
 void Board::event_key_release(uint32_t key, ssize_t mouse_x, ssize_t mouse_y)
 {
     if (key == 'w') {
-        wires_ = wire_management_.stop_drawing(mouse_to_tile(mouse_x, mouse_y));
+        merge_wires(wire_management_.stop_drawing(mouse_to_tile(mouse_x, mouse_y)));
     }
 }
 
@@ -20,6 +24,21 @@ void Board::event_mouse_move(ssize_t x, ssize_t y, ssize_t xrel, ssize_t yrel)
 {
     wire_management_.set_current_end(mouse_to_tile(x, y));
 }
+
+//
+// MODIFY BOARD
+//
+
+void Board::merge_wires(WireMap const& wm)
+{
+    for (auto const& [pos, ws]: wm) {
+        wires_[pos].insert(ws.begin(), ws.end());
+    }
+}
+
+//
+// DRAWING
+//
 
 void Board::draw(Graphics& graphics) const
 {
@@ -82,16 +101,16 @@ void Board::draw_wires(Graphics& graphics, Position const& pos, WireSet const& w
 
     for (WireConfiguration const& wc: wcs) {
         auto it = wire_sprites.find(wc);
-        if (it != wire_sprites.end())
+        if (it == wire_sprites.end())
             throw std::runtime_error("Wire configuration not found");
         graphics.draw(it->second, (pos.x + 2) * TILE_SIZE, (pos.y + 2) * TILE_SIZE, semitransparent);
     }
 }
 
-Position Board::mouse_to_tile(ssize_t mx, ssize_t my)
+Position Board::mouse_to_tile(ssize_t mx, ssize_t my) const
 {
     return {
-        .x = mx / TILE_SIZE - 2,
-        .y = my / TILE_SIZE - 2,
+        .x = (ssize_t) (mx / TILE_SIZE / zoom - 2),
+        .y = (ssize_t) (my / TILE_SIZE / zoom - 2),
     };
 }

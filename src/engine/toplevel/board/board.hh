@@ -23,11 +23,13 @@ private:
     ssize_t board_w_ = 10;
     ssize_t board_h_ = 10;
 
+    void merge_wires(WireMap const& wm);
+
     void draw_board_borders(Graphics& graphics) const;
     void draw_tile(Graphics& graphics, Position const& pos) const;
     void draw_wires(Graphics& graphics, Position const& pos, WireSet const& wcs, bool semitransparent) const;
 
-    static Position mouse_to_tile(ssize_t mx, ssize_t my);
+    Position mouse_to_tile(ssize_t mx, ssize_t my) const;
 
     WireManagement wire_management_;
     WireMap        wires_ {};
