@@ -5,13 +5,15 @@
 #include <optional>
 #include <vector>
 
+#include "component/component.hh"
+#include "component/components.hh"
 #include "toplevel/toplevel.hh"
 #include "toplevel/board/board.hh"
 
 class Game {
 public:
     Game() {
-        toplevels_.push_back(std::make_unique<Board>());
+        toplevels_.emplace_back(std::make_unique<Board>());
     }
 
     [[nodiscard]] std::vector<std::unique_ptr<TopLevel>> const& toplevels() const { return toplevels_; }
@@ -21,6 +23,7 @@ public:
 
 private:
     std::vector<std::unique_ptr<TopLevel>> toplevels_;
+    std::vector<ComponentType> component_types_ = default_component_types();
 };
 
 #endif //GAME_HH

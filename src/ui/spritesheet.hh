@@ -6,7 +6,7 @@
 enum class Sprite {
     Tile = 0,
     BoardTopLeft, BoardTop, BoardTopRight, BoardLeft, BoardRight, BoardBottomLeft, BoardBottom, BoardBottomRight,
-    NPN, PNP, ButtonOff, ButtonOn, LedOff, LedOn,
+    VCC, NPN, PNP, ButtonOff, ButtonOn, LedOff, LedOn,
     ShadowRect, ShadowSquare, ShadowCircle,
     WireTopOnNorth_1, WireTopOnEast_1, WireTopOnWest_1, WireTopOnSouth_1,
     WireTopOffNorth_1, WireTopOffEast_1, WireTopOffWest_1, WireTopOffSouth_1,
@@ -29,7 +29,8 @@ constexpr struct {
     { 0, 3, 2, 2 },
     { 2, 3, 1, 2 },
     { 3, 3, 2, 2 },
-    { 5, 2 },       // NPN
+    { 8, 2 },       // VCC
+    { 5, 2 },
     { 5, 3 },
     { 6, 2 },
     { 6, 3 },

@@ -5,6 +5,9 @@
 #include "wiremanagement.hh"
 #include "../toplevel.hh"
 #include "engine/position.hh"
+#include "engine/component/component.hh"
+
+using ComponentMap = std::unordered_map<Position, std::unique_ptr<Component>>;
 
 class Board : public TopLevel {
 public:
@@ -33,6 +36,7 @@ private:
 
     WireManagement wire_management_;
     WireMap        wires_ {};
+    ComponentMap   components_ {};
 };
 
 #endif //BOARD_HH

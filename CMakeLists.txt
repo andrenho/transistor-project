@@ -66,10 +66,7 @@ add_executable(${CMAKE_PROJECT_NAME}
         src/engine/toplevel/toplevel.hh
         src/engine/toplevel/board/board.cc
         src/engine/toplevel/board/board.hh
-        src/engine/component/component.cc
         src/engine/component/component.hh
-        src/engine/component/transistor.cc
-        src/engine/component/transistor.hh
         src/engine/game.hh
         src/ui/spritesheet.hh
         src/engine/game.cc
@@ -78,6 +75,8 @@ add_executable(${CMAKE_PROJECT_NAME}
         src/engine/toplevel/board/wiremanagement.hh
         src/engine/position.hh
         src/engine/toplevel/board/wireconfiguration.hh
+        src/engine/component/components.hh
+        src/engine/component/components.cc
 )
 
 b_embed(${CMAKE_PROJECT_NAME} resources/images/bg.jpg)
