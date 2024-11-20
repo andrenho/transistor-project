@@ -10,8 +10,6 @@ Toplevel
 
 Board wiring
 - [x] Wire management (top board only)
-- [ ] Wire removal
-- [ ] Wire crossing
 
 Component creation
 - [ ] Create components: transistor, button, led
@@ -23,7 +21,7 @@ Component creation
   - [ ] Serialization
 
 Components in board:
-- [ ] Add/remove components to board
+- [ ] Add/remove components/wires to board
 - [ ] Rotate components
 
 Board serialization:
@@ -31,6 +29,8 @@ Board serialization:
 
 # Phase 2 - simulation
 
+- [ ] New components
+  - [ ] NPN, PNP, VCC, wire crossing
 - [ ] Compilation
 - [ ] Simulation
 
