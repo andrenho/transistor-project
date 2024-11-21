@@ -5,7 +5,6 @@
 #include <variant>
 #include <vector>
 
-#include "component.hh"
 #include "engine/position.hh"
 
 enum PinType { Input, Output, InputOutput };
@@ -22,13 +21,21 @@ struct PhysicalCharacteristics {
     std::vector<Pin> pins;
 };
 
+struct Component;
+
 struct ComponentType {
     std::string              id;
     PhysicalCharacteristics  physical_characteristics;
     std::optional<uint32_t>  key_to_place;
 
-    std::function<std::unique_ptr<Component>()> create_component = nullptr;
+    std::function<std::unique_ptr<Component>()>                   create_component = nullptr;
+    std::function<std::unique_ptr<Component>(std::string const&)> create_component_from_serial = nullptr;
 };
+
+#define COMPONENT_CONSTRUCTOR(klass) explicit klass (ComponentType const* ct) : Component(ct) {}
+#define COMPONENT_TYPE_INIT(klass, var) \
+    var.create_component = [&]() { return std::make_unique<klass>(&var); }; \
+    var.create_component_from_serial = [&](std::string const& serial) { return std::make_unique<klass>(&var, serial); };
 
 extern std::vector<ComponentType*> default_component_types;
 

@@ -20,12 +20,13 @@ Component creation
   - Simulation
   - Serialization
 
+Board serialization:
+- [x] Component serialization
+- [ ] Board serialization
+
 Components in board:
 - [ ] Add/remove components/wires to board
 - [ ] Rotate components
-
-Board serialization:
-- [ ] Board serialization
 
 # Phase 2 - simulation
 
@@ -68,6 +69,7 @@ UI
 Board
 - [ ] Lua circuits
 - [ ] ICs
+  - [ ] IC placement/removal
   - [ ] Fixed behaviour
   - [ ] Lua
 - [ ] Subcircuits

@@ -81,6 +81,8 @@ add_executable(${CMAKE_PROJECT_NAME}
         src/engine/component/button.hh
         src/util/visitor.hh
         src/engine/component/componenttype.hh
+        src/engine/component/component.cc
+        src/exceptions/deserializationerror.hh
 )
 
 b_embed(${CMAKE_PROJECT_NAME} resources/images/bg.jpg)

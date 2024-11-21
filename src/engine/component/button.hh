@@ -5,7 +5,12 @@
 
 struct Button : Component {
 
-    explicit Button(ComponentType const* ct) : Component(ct) {}
+    COMPONENT_CONSTRUCTOR(Button)
+
+    Button(ComponentType* ct, std::string const& serial) : Button(ct)
+    {
+        value_ = serial == "0";
+    }
 
     std::vector<uint8_t> simulate([[maybe_unused]] std::vector<uint8_t> const& inputs) override
     {
@@ -34,9 +39,12 @@ struct Button : Component {
             },
             .key_to_place = 'b',
         };
-        button.create_component = [&]() { return std::make_unique<Button>(&button); };
+        COMPONENT_TYPE_INIT(Button, button)
         return &button;
     }
+
+protected:
+    std::string serialize_component() const override { return value_ ? "1" : "0"; }
 
 private:
     bool value_ = false;

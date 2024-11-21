@@ -5,7 +5,9 @@
 
 struct VCC : Component {
 
-    explicit VCC(ComponentType const* ct) : Component(ct) {}
+    COMPONENT_CONSTRUCTOR(VCC)
+
+    VCC(ComponentType* ct, std::string const& serial) : VCC(ct) {}
 
     std::vector<uint8_t> simulate([[maybe_unused]] std::vector<uint8_t> const& inputs) override
     {
@@ -29,9 +31,12 @@ struct VCC : Component {
             },
             .key_to_place = 'v',
         };
-        vcc.create_component = [&]() { return std::make_unique<VCC>(&vcc); };
+        COMPONENT_TYPE_INIT(VCC, vcc)
         return &vcc;
     }
+
+protected:
+    std::string serialize_component() const override { return ""; }
 };
 
 

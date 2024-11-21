@@ -2,9 +2,11 @@
 #define COMPONENT_HH
 
 #include <cstdint>
+#include <string>
 #include <variant>
 #include <vector>
 
+#include "componenttype.hh"
 #include "ui/spritesheet.hh"
 
 using ComponentImage = std::variant<std::vector<Sprite>>;
@@ -16,13 +18,19 @@ public:
 
     virtual ComponentImage       component_image() const = 0;
 
-    // TODO - serialization
+    std::string                  serialize() const { return type->id + ":" + serialize_component(); }
+
     virtual ~Component() = default;
 
-    struct ComponentType const* type;
+    ComponentType const* type;
+
+    static std::unique_ptr<Component> deserialize(std::vector<ComponentType*> const& supported_component_types,
+        std::string const& serial);
 
 protected:
     explicit Component(ComponentType const* component_type_) : type(component_type_) {}
+
+    virtual std::string serialize_component() const = 0;
 };
 
 #endif //COMPONENT_HH

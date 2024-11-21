@@ -5,7 +5,9 @@
 
 struct LED : Component {
 
-    explicit LED(ComponentType const* ct) : Component(ct) {}
+    COMPONENT_CONSTRUCTOR(LED)
+
+    LED(ComponentType* ct, std::string const& serial) : LED(ct) {}
 
     std::vector<uint8_t> simulate([[maybe_unused]] std::vector<uint8_t> const& inputs) override
     {
@@ -30,9 +32,12 @@ struct LED : Component {
             },
             .key_to_place = 'l',
         };
-        led.create_component = [&]() { return std::make_unique<LED>(&led); };
+        COMPONENT_TYPE_INIT(LED, led)
         return &led;
     }
+
+protected:
+    std::string serialize_component() const override { return ""; }
 
 private:
     bool value_ = false;
