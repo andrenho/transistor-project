@@ -12,13 +12,13 @@ Board wiring
 - [x] Wire management (top board only)
 
 Component creation
-- [ ] Create components: transistor, button, led
-- [ ] Component parts:
-  - [ ] Board placement (size, can rotate, keypress to place)
-  - [ ] Configuration (change behaviour through UI elements, mock only for now)
-  - [ ] Load image (from file or XBM) and draw
-  - [ ] Simulation
-  - [ ] Serialization
+- [x] Create components: transistor, button, led
+- [x] Component parts
+  - Board placement (size, can rotate, keypress to place)
+  - Configuration (change behaviour through UI elements, mock only for now)
+  - Load image (from file or XBM) and draw
+  - Simulation
+  - Serialization
 
 Components in board:
 - [ ] Add/remove components/wires to board
