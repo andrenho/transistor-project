@@ -3,6 +3,8 @@
 
 #include "ui/graphics.hh"
 
+class Game;
+
 class TopLevel {
 public:
     ssize_t position_x = 0, position_y = 0;           // position, in pixels
@@ -20,6 +22,10 @@ public:
     virtual void event_key_release(uint32_t key, ssize_t mouse_x, ssize_t mouse_y) {}
 
     virtual ~TopLevel() = default;
+
+protected:
+    explicit TopLevel(Game& game) : game_(game) {}
+    Game& game_;
 };
 
 #endif //TOPLEVEL_HH

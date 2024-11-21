@@ -11,6 +11,8 @@ using ComponentMap = std::unordered_map<Position, std::unique_ptr<Component>>;
 
 class Board : public TopLevel {
 public:
+    explicit Board(Game& game) : TopLevel(game) {}
+
     size_t w() const override { return (board_w_ + 4) * TILE_SIZE; }
     size_t h() const override { return (board_h_ + 4) * TILE_SIZE; }
 
@@ -26,6 +28,7 @@ private:
     ssize_t board_w_ = 10;
     ssize_t board_h_ = 10;
 
+    void add_component(Position const& pos, ComponentType const* component_type);
     void merge_wires(WireMap const& wm);
 
     void draw_board_borders(Graphics& graphics) const;

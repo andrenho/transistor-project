@@ -2,6 +2,9 @@
 
 #include <stdexcept>
 
+#include "engine/game.hh"
+#include "util/visitor.hh"
+
 //
 // EVENTS
 //
@@ -10,6 +13,11 @@ void Board::event_key_press(uint32_t key, ssize_t mouse_x, ssize_t mouse_y)
 {
     if (key == 'w') {
         wire_management_.start_drawing(mouse_to_tile(mouse_x, mouse_y), WireWidth::W1, WireSide::Top);
+    } else {
+        for (auto const* ct: game_.component_types()) {
+            if (key == ct->key_to_place)
+                add_component(mouse_to_tile(mouse_x, mouse_y), ct);
+        }
     }
 }
 
@@ -28,6 +36,12 @@ void Board::event_mouse_move(ssize_t x, ssize_t y, ssize_t xrel, ssize_t yrel)
 //
 // MODIFY BOARD
 //
+
+void Board::add_component(Position const& pos, ComponentType const* component_type)
+{
+    components_[pos] = component_type->create_component();
+    printf("%p\n", components_.at(pos)->component_type);
+}
 
 void Board::merge_wires(WireMap const& wm)
 {
@@ -72,18 +86,28 @@ void Board::draw_tile(Graphics& graphics, Position const& pos) const
 
     // draw wire
     {
-        auto it = wires_.find(pos);
-        if (it != wires_.end())
+        if (auto const it = wires_.find(pos); it != wires_.end())
             draw_wires(graphics, pos, it->second, false);
     }
 
     // draw temporary wire
     {
         auto const& cd = wire_management_.current_drawing();
-        auto it = cd.find(pos);
-        if (it != cd.end())
+        if (auto const it = cd.find(pos); it != cd.end())
             draw_wires(graphics, pos, it->second, true);
     }
+
+    // component
+    {
+        if (auto const it = components_.find(pos); it != components_.end())
+            std::visit(overloaded {
+                [&](std::vector<Sprite> const& vsp) {
+                    for (const Sprite sp: vsp)
+                        graphics.draw(sp, (pos.x + 2) * TILE_SIZE, (pos.y + 2) * TILE_SIZE);
+                },
+            }, it->second->component_type->component_image);
+        }
+
 }
 
 void Board::draw_wires(Graphics& graphics, Position const& pos, WireSet const& wcs, bool semitransparent) const

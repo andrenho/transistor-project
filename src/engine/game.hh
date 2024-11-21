@@ -6,14 +6,13 @@
 #include <vector>
 
 #include "component/component.hh"
-#include "component/components.hh"
 #include "toplevel/toplevel.hh"
 #include "toplevel/board/board.hh"
 
 class Game {
 public:
     Game() {
-        toplevels_.emplace_back(std::make_unique<Board>());
+        toplevels_.emplace_back(std::make_unique<Board>(*this));
     }
 
     [[nodiscard]] std::vector<std::unique_ptr<TopLevel>> const& toplevels() const { return toplevels_; }
@@ -21,9 +20,11 @@ public:
 
     void bring_to_front(TopLevel* toplevel);
 
+    [[nodiscard]] std::vector<ComponentType*> const& component_types() const { return component_types_; }
+
 private:
     std::vector<std::unique_ptr<TopLevel>> toplevels_;
-    std::vector<ComponentType> component_types_ = default_component_types();
+    std::vector<ComponentType*> component_types_ = default_component_types;
 };
 
 #endif //GAME_HH

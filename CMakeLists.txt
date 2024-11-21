@@ -75,8 +75,9 @@ add_executable(${CMAKE_PROJECT_NAME}
         src/engine/toplevel/board/wiremanagement.hh
         src/engine/position.hh
         src/engine/toplevel/board/wireconfiguration.hh
-        src/engine/component/components.hh
-        src/engine/component/components.cc
+        src/engine/component/component.cc
+        src/engine/component/vcc.hh
+        src/util/visitor.hh
 )
 
 b_embed(${CMAKE_PROJECT_NAME} resources/images/bg.jpg)

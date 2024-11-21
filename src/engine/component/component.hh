@@ -21,17 +21,18 @@ struct PhysicalCharacteristics {
     std::vector<Pin> outputs;
 };
 
-struct ComponentImage {
-    std::variant<std::vector<Sprite>> image;
-};
+using ComponentImage = std::variant<std::vector<Sprite>>;
 
 class Component {
 public:
     virtual std::vector<uint8_t> simulate([[maybe_unused]] std::vector<uint8_t> const& inputs) = 0;
     // TODO - serialization
     virtual ~Component() = default;
+
+    struct ComponentType const* component_type;
+
 protected:
-    Component() = default;
+    explicit Component(ComponentType const* component_type_) : component_type(component_type_) {}
 };
 
 struct ComponentType {
@@ -40,7 +41,9 @@ struct ComponentType {
     std::optional<uint32_t>  key_to_place;
     ComponentImage           component_image;
 
-    std::function<std::unique_ptr<Component>()> create_component;
+    std::function<std::unique_ptr<Component>()> create_component = nullptr;
 };
+
+extern std::vector<ComponentType*> default_component_types;
 
 #endif //COMPONENT_HH
