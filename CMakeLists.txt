@@ -61,6 +61,7 @@ add_executable(${CMAKE_PROJECT_NAME}
         src/ui/ui.hh
         src/ui/ui.cc
         src/ui/graphics.hh
+        src/ui/spritesheet.hh
         src/lua/luaengine.cc
         src/lua/luaengine.hh
         src/engine/toplevel/toplevel.hh
@@ -68,17 +69,17 @@ add_executable(${CMAKE_PROJECT_NAME}
         src/engine/toplevel/board/board.hh
         src/engine/component/component.hh
         src/engine/game.hh
-        src/ui/spritesheet.hh
+        src/engine/position.hh
         src/engine/game.cc
         src/engine/game.cc
         src/engine/toplevel/board/wiremanagement.cc
         src/engine/toplevel/board/wiremanagement.hh
-        src/engine/position.hh
         src/engine/toplevel/board/wireconfiguration.hh
         src/engine/component/component.cc
         src/engine/component/vcc.hh
-        src/util/visitor.hh
         src/engine/component/led.hh
+        src/engine/component/button.hh
+        src/util/visitor.hh
 )
 
 b_embed(${CMAKE_PROJECT_NAME} resources/images/bg.jpg)

@@ -27,21 +27,22 @@ using ComponentImage = std::variant<std::vector<Sprite>>;
 
 class Component {
 public:
-    virtual std::vector<uint8_t> simulate([[maybe_unused]] std::vector<uint8_t> const& inputs) = 0;
+    virtual std::vector<uint8_t>         simulate([[maybe_unused]] std::vector<uint8_t> const& inputs) = 0;
+    [[nodiscard]] virtual ComponentImage component_image() const = 0;
+
     // TODO - serialization
     virtual ~Component() = default;
 
-    struct ComponentType const* component_type;
+    struct ComponentType const* type;
 
 protected:
-    explicit Component(ComponentType const* component_type_) : component_type(component_type_) {}
+    explicit Component(ComponentType const* component_type_) : type(component_type_) {}
 };
 
 struct ComponentType {
     std::string              id;
     PhysicalCharacteristics  physical_characteristics;
     std::optional<uint32_t>  key_to_place;
-    ComponentImage           component_image;   // TODO - transform this in function
 
     std::function<std::unique_ptr<Component>()> create_component = nullptr;
 };

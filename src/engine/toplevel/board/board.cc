@@ -104,7 +104,7 @@ void Board::draw_tile(Graphics& graphics, Position const& pos) const
                     for (const Sprite sp: vsp)
                         graphics.draw(sp, (pos.x + 2) * TILE_SIZE, (pos.y + 2) * TILE_SIZE);
                 },
-            }, it->second->component_type->component_image);
+            }, it->second->component_image());
         }
 
 }

@@ -12,6 +12,11 @@ struct VCC : Component {
         return { 1 };
     }
 
+    ComponentImage component_image() const override
+    {
+        return std::vector { Sprite::ShadowSquare, Sprite::VCC };
+    }
+
     static ComponentType* component_type()
     {
         static auto vcc = ComponentType {
@@ -23,7 +28,6 @@ struct VCC : Component {
                 },
             },
             .key_to_place = 'v',
-            .component_image = std::vector<Sprite> { Sprite::ShadowSquare, Sprite::VCC },
         };
         vcc.create_component = [&]() { return std::make_unique<VCC>(&vcc); };
         return &vcc;

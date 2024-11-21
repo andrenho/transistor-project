@@ -13,6 +13,11 @@ struct LED : Component {
         return {};
     }
 
+    ComponentImage component_image() const override
+    {
+        return std::vector { Sprite::ShadowCircle, value_ ? Sprite::LedOn : Sprite::LedOff };
+    }
+
     static ComponentType* component_type()
     {
         static auto led = ComponentType {
@@ -24,7 +29,6 @@ struct LED : Component {
                 },
             },
             .key_to_place = 'l',
-            .component_image = std::vector<Sprite> { Sprite::ShadowCircle, Sprite::LedOff },
         };
         led.create_component = [&]() { return std::make_unique<LED>(&led); };
         return &led;
