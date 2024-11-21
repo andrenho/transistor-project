@@ -40,7 +40,6 @@ void Board::event_mouse_move(ssize_t x, ssize_t y, ssize_t xrel, ssize_t yrel)
 void Board::add_component(Position const& pos, ComponentType const* component_type)
 {
     components_[pos] = component_type->create_component();
-    printf("%p\n", components_.at(pos)->component_type);
 }
 
 void Board::merge_wires(WireMap const& wm)

@@ -78,6 +78,7 @@ add_executable(${CMAKE_PROJECT_NAME}
         src/engine/component/component.cc
         src/engine/component/vcc.hh
         src/util/visitor.hh
+        src/engine/component/led.hh
 )
 
 b_embed(${CMAKE_PROJECT_NAME} resources/images/bg.jpg)
