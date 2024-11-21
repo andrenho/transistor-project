@@ -21,6 +21,7 @@ public:
     void event_key_press(uint32_t key, ssize_t mouse_x, ssize_t mouse_y) override;
     void event_key_release(uint32_t key, ssize_t mouse_x, ssize_t mouse_y) override;
     void event_mouse_move(ssize_t x, ssize_t y, ssize_t xrel, ssize_t yrel) override;
+    void event_mouse_click(ssize_t x, ssize_t y, MouseButton button) override;
 
     [[nodiscard]] WireMap const& wires() const { return wires_; }
 

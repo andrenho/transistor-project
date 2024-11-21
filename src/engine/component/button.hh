@@ -12,6 +12,11 @@ struct Button : Component {
         return { value_, value_, value_, value_ };
     }
 
+    void on_click(size_t x, size_t y) override
+    {
+        value_ = !value_;
+    }
+
     [[nodiscard]] ComponentImage component_image() const override
     {
         return std::vector { Sprite::ShadowSquare, value_ ? Sprite::ButtonOn : Sprite::ButtonOff };

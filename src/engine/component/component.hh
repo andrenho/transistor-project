@@ -12,6 +12,8 @@ using ComponentImage = std::variant<std::vector<Sprite>>;
 class Component {
 public:
     virtual std::vector<uint8_t> simulate([[maybe_unused]] std::vector<uint8_t> const& inputs) = 0;
+    virtual void                 on_click([[maybe_unused]] size_t x, [[maybe_unused]] size_t y) {}
+
     virtual ComponentImage       component_image() const = 0;
 
     // TODO - serialization

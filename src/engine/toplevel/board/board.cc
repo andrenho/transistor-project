@@ -33,6 +33,14 @@ void Board::event_mouse_move(ssize_t x, ssize_t y, ssize_t xrel, ssize_t yrel)
     wire_management_.set_current_end(mouse_to_tile(x, y));
 }
 
+void Board::event_mouse_click(ssize_t x, ssize_t y, MouseButton button)
+{
+    Position tile = mouse_to_tile(x, y);
+    if (auto it = components_.find(tile); it != components_.end()) {
+        it->second->on_click(0, 0);  // TODO
+    }
+}
+
 //
 // MODIFY BOARD
 //
