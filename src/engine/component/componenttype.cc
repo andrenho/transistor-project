@@ -1,4 +1,4 @@
-#include "component.hh"
+#include "componenttype.hh"
 
 #include <vector>
 

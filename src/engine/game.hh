@@ -5,7 +5,7 @@
 #include <optional>
 #include <vector>
 
-#include "component/component.hh"
+#include "component/componenttype.hh"
 #include "toplevel/toplevel.hh"
 #include "toplevel/board/board.hh"
 
