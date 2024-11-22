@@ -22,7 +22,6 @@ Component creation
 
 Board serialization:
 - [x] Component serialization
-- [ ] Board serialization
 
 Components in board:
 - [ ] Add/remove components/wires to board
@@ -43,6 +42,8 @@ Board creation
 - [ ] Cut/Copy/paste chucks
 - [ ] Add text to board
 - [ ] Save/load boards
+  - [ ] Board serialization
+  - [ ] Game serialization
 
 UI
 - [ ] Menu bar
