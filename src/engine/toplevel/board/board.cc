@@ -47,7 +47,7 @@ void Board::event_mouse_click(ssize_t x, ssize_t y, MouseButton button)
 
 void Board::add_component(Position const& pos, ComponentType const* component_type)
 {
-    if (component_type->create_component)
+    if (!component_type->create_component)
         throw std::runtime_error("Component cannot be initialized (missing `create_component`)");
     components_[pos] = component_type->create_component();
 }

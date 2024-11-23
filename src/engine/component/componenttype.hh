@@ -33,9 +33,10 @@ struct ComponentType {
 };
 
 #define COMPONENT_CONSTRUCTOR(klass) explicit klass (ComponentType const* ct) : Component(ct) {}
-#define COMPONENT_TYPE_INIT(klass, var) \
+#define COMPONENT_TYPE_INIT(klass, var) { \
     var.create_component = [&]() { return std::make_unique<klass>(&var); }; \
-    var.create_component_from_serial = [&](std::string const& serial) { return std::make_unique<klass>(&var, serial); };
+    var.create_component_from_serial = [&](std::string const& serial) { return std::make_unique<klass>(&var, serial); }; \
+}
 
 extern std::vector<ComponentType*> default_component_types;
 
