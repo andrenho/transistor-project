@@ -5,14 +5,14 @@
 #include <unordered_map>
 
 #include "graphics.hh"
-#include "engine/game.hh"
+#include "engine/sandbox.hh"
 
 using hr = std::chrono::high_resolution_clock;
 using Duration = decltype(hr::now() - hr::now());
 
 class UI : public Graphics {
 public:
-    UI(Game& game);
+    UI(Sandbox& sandbox);
     ~UI();
     UI (const UI&) = delete;
     UI& operator=(const UI&) = delete;
@@ -27,10 +27,10 @@ public:
 
 private:
     void load_resources();
-    void render_game();
+    void render_sandbox();
     void move_toplevel(TopLevel* toplevel, int xrel, int yrel);
 
-    Game& game_;
+    Sandbox& sandbox_;
 
     bool running_ = true;
     bool show_demo_window_ = true;

@@ -11,7 +11,7 @@ using ComponentMap = std::unordered_map<Position, std::unique_ptr<Component>>;
 
 class Board : public TopLevel {
 public:
-    explicit Board(Game& game) : TopLevel(game) {}
+    explicit Board(Sandbox& sandbox) : TopLevel(sandbox) {}
 
     size_t w() const override { return (board_w_ + 4) * TILE_SIZE; }
     size_t h() const override { return (board_h_ + 4) * TILE_SIZE; }

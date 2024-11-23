@@ -3,7 +3,7 @@
 
 #include "ui/graphics.hh"
 
-class Game;
+class Sandbox;
 
 class TopLevel {
 public:
@@ -24,8 +24,8 @@ public:
     virtual ~TopLevel() = default;
 
 protected:
-    explicit TopLevel(Game& game) : game_(game) {}
-    Game& game_;
+    explicit TopLevel(Sandbox& sandbox) : sandbox_(sandbox) {}
+    Sandbox& sandbox_;
 };
 
 #endif //TOPLEVEL_HH

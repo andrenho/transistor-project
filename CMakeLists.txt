@@ -68,10 +68,10 @@ add_executable(${CMAKE_PROJECT_NAME}
         src/engine/toplevel/board/board.cc
         src/engine/toplevel/board/board.hh
         src/engine/component/component.hh
-        src/engine/game.hh
+        src/engine/sandbox.hh
         src/engine/position.hh
-        src/engine/game.cc
-        src/engine/game.cc
+        src/engine/sandbox.cc
+        src/engine/sandbox.cc
         src/engine/toplevel/board/wiremanagement.cc
         src/engine/toplevel/board/wiremanagement.hh
         src/engine/toplevel/board/wireconfiguration.hh
@@ -85,6 +85,8 @@ add_executable(${CMAKE_PROJECT_NAME}
         src/exceptions/deserializationerror.hh
         src/engine/toplevel/board/wireconfiguration.cc
         src/engine/position.cc
+        src/engine/simulation/simulation.cc
+        src/engine/simulation/simulation.hh
 )
 
 b_embed(${CMAKE_PROJECT_NAME} resources/images/bg.jpg)

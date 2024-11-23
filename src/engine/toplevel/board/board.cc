@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 
-#include "engine/game.hh"
+#include "engine/sandbox.hh"
 #include "util/visitor.hh"
 
 //
@@ -25,7 +25,7 @@ void Board::event_key_press(Graphics& graphics, uint32_t key, ssize_t mouse_x, s
             rotate_tile(tpos);
             break;
         default:
-            for (auto const* ct: game_.component_types()) {
+            for (auto const* ct: sandbox_.component_types()) {
                 if (key == ct->key_to_place)
                     add_component(tpos, ct);
             }

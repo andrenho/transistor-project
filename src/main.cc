@@ -2,12 +2,12 @@
 
 #include <chrono>
 
-#include "engine/game.hh"
+#include "engine/sandbox.hh"
 
 int main()
 {
-    Game game;
-    UI ui(game);
+    Sandbox sandbox;
+    UI ui(sandbox);
 
     auto last_frame = hr::now();
     while (ui.running()) {

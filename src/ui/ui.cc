@@ -10,8 +10,8 @@ using namespace std::string_literals;
 #include "spritesheet.hh"
 #include "battery/embed.hpp"
 
-UI::UI(Game& game)
-    : game_(game)
+UI::UI(Sandbox& sandbox)
+    : sandbox_(sandbox)
 {
     SDL_Init(SDL_INIT_EVERYTHING);
     TTF_Init();
@@ -77,9 +77,9 @@ void UI::update(Duration timestep)
                 running_ = false;
                 break;
             case SDL_MOUSEBUTTONDOWN: {
-                auto toplevel = game_.topmost_toplevel_in_pos(e.button.x, e.button.y);
+                auto toplevel = sandbox_.topmost_toplevel_in_pos(e.button.x, e.button.y);
                 if (toplevel) {
-                    game_.bring_to_front(*toplevel);
+                    sandbox_.bring_to_front(*toplevel);
                     if (e.button.button == SDL_BUTTON_RIGHT) {
                         moving_toplevel_ = *toplevel;
                         SDL_ShowCursor(SDL_DISABLE);
@@ -94,12 +94,12 @@ void UI::update(Duration timestep)
                     moving_toplevel_.reset();
                     SDL_ShowCursor(SDL_ENABLE);
                 } else {
-                    for (auto& tl: game_.toplevels())
+                    for (auto& tl: sandbox_.toplevels())
                         tl->event_mouse_release(*this, e.button.x - tl->position_x, e.button.y - tl->position_y, (MouseButton) e.button.button);
                 }
                 break;
             case SDL_MOUSEMOTION: {
-                auto toplevel = game_.topmost_toplevel_in_pos(e.motion.x, e.motion.y);
+                auto toplevel = sandbox_.topmost_toplevel_in_pos(e.motion.x, e.motion.y);
                 if (toplevel)
                     (*toplevel)->event_mouse_move(*this, e.motion.x - (*toplevel)->position_x, e.motion.y - (*toplevel)->position_y, e.motion.xrel, e.motion.yrel);
                 if (moving_toplevel_)
@@ -109,7 +109,7 @@ void UI::update(Duration timestep)
             case SDL_KEYUP: {
                 int mx, my;
                 SDL_GetMouseState(&mx, &my);
-                for (auto& tl: game_.toplevels())
+                for (auto& tl: sandbox_.toplevels())
                     tl->event_key_release(*this, e.key.keysym.sym, mx - tl->position_x, my - tl->position_y);
                 break;
             }
@@ -117,7 +117,7 @@ void UI::update(Duration timestep)
                 if (e.key.repeat == 0) {
                     int mx, my;
                     SDL_GetMouseState(&mx, &my);
-                    auto toplevel = game_.topmost_toplevel_in_pos(mx, my);
+                    auto toplevel = sandbox_.topmost_toplevel_in_pos(mx, my);
                     if (toplevel) {
                         (*toplevel)->event_key_press(*this, e.key.keysym.sym, mx - (*toplevel)->position_x, my - (*toplevel)->position_y);
                     }
@@ -150,14 +150,14 @@ void UI::render()
     // clear screen
     SDL_RenderCopy(ren_, bg_texture_, nullptr, nullptr);
 
-    render_game();
+    render_sandbox();
 
     SDL_RenderPresent(ren_);
 }
 
-void UI::render_game()
+void UI::render_sandbox()
 {
-    for (auto const& toplevel : game_.toplevels()) {
+    for (auto const& toplevel : sandbox_.toplevels()) {
         SDL_RenderSetScale(ren_, toplevel->zoom, toplevel->zoom);
         rel_x_ = toplevel->position_x / toplevel->zoom;
         rel_y_ = toplevel->position_y / toplevel->zoom;

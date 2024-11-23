@@ -1,19 +1,22 @@
-#ifndef GAME_HH
-#define GAME_HH
+#ifndef SANDBOX_HH
+#define SANDBOX_HH
 
 #include <memory>
 #include <optional>
 #include <vector>
 
 #include "component/componenttype.hh"
+#include "simulation/simulation.hh"
 #include "toplevel/toplevel.hh"
 #include "toplevel/board/board.hh"
 
-class Game {
+class Sandbox {
 public:
-    Game() {
+    Sandbox() {
         toplevels_.emplace_back(std::make_unique<Board>(*this));
     }
+
+    void rebuild_simulation();
 
     [[nodiscard]] std::vector<std::unique_ptr<TopLevel>> const& toplevels() const { return toplevels_; }
     [[nodiscard]] std::optional<TopLevel*> topmost_toplevel_in_pos(ssize_t x, ssize_t y) const;
@@ -24,7 +27,8 @@ public:
 
 private:
     std::vector<std::unique_ptr<TopLevel>> toplevels_;
-    std::vector<ComponentType*> component_types_ = default_component_types;
+    std::vector<ComponentType*>            component_types_ = default_component_types;
+    Simulation                             simulation_;
 };
 
-#endif //GAME_HH
+#endif //SANDBOX_HH
