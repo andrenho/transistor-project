@@ -1,6 +1,8 @@
 #ifndef WIREMANAGEMENT_HH
 #define WIREMANAGEMENT_HH
 
+#include <optional>
+
 #include "wireconfiguration.hh"
 #include "engine/position.hh"
 
