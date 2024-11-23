@@ -142,9 +142,13 @@ void Board::draw_tile(Graphics& graphics, Position const& pos) const
     {
         if (auto const it = components_.find(pos); it != components_.end())
             std::visit(overloaded {
-                [&](std::vector<Sprite> const& vsp) {
-                    for (const Sprite sp: vsp)
-                        graphics.draw(sp, (pos.x + 2) * TILE_SIZE, (pos.y + 2) * TILE_SIZE, { .direction = it->second->direction() });
+                [&](std::vector<ComponentSprite> const& css) {
+                    for (ComponentSprite const cs: css)
+                        graphics.draw(cs.sprite, (pos.x + 2) * TILE_SIZE, (pos.y + 2) * TILE_SIZE, {
+                            .direction = it->second->direction(),
+                            .displacement_x = cs.displacement_x,
+                            .displacement_y = cs.displacement_y,
+                        });
                 },
             }, it->second->component_image());
         }

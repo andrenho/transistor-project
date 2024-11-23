@@ -16,7 +16,10 @@ struct VCC : Component {
 
     ComponentImage component_image() const override
     {
-        return std::vector { Sprite::ShadowSquare, Sprite::VCC };
+        return std::vector<ComponentSprite> {
+            { Sprite::ShadowSquare, 1, 1 },
+            { Sprite::VCC }
+        };
     }
 
     static ComponentType* component_type()

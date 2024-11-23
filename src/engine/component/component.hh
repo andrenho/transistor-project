@@ -9,7 +9,12 @@
 #include "componenttype.hh"
 #include "ui/spritesheet.hh"
 
-using ComponentImage = std::variant<std::vector<Sprite>>;
+struct ComponentSprite {
+    Sprite sprite;
+    int displacement_x = 0, displacement_y = 0;
+};
+
+using ComponentImage = std::variant<std::vector<ComponentSprite>>;
 
 class Component {
 public:

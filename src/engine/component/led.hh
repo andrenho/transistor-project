@@ -17,7 +17,10 @@ struct LED : Component {
 
     ComponentImage component_image() const override
     {
-        return std::vector { Sprite::ShadowCircle, value_ ? Sprite::LedOn : Sprite::LedOff };
+        return std::vector<ComponentSprite> {
+            { Sprite::ShadowCircle, 1, 1 },
+            { value_ ? Sprite::LedOn : Sprite::LedOff }
+        };
     }
 
     static ComponentType* component_type()
