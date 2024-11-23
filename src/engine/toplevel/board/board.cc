@@ -26,8 +26,9 @@ void Board::event_key_press(Graphics& graphics, uint32_t key, ssize_t mouse_x, s
             break;
         default:
             for (auto const* ct: sandbox_.component_types()) {
-                if (key == ct->key_to_place)
+                if (key == ct->key_to_place) {
                     add_component(tpos, ct);
+                }
             }
     }
 }
@@ -49,8 +50,9 @@ void Board::event_mouse_move(Graphics& graphics, ssize_t x, ssize_t y, ssize_t x
 
     wire_management_.set_current_end(tpos);
 
-    if (clearing_tiles_)
+    if (clearing_tiles_) {
         clear_tile(tpos);
+    }
 }
 
 void Board::event_mouse_click(Graphics& graphics, ssize_t x, ssize_t y, MouseButton button)
@@ -70,6 +72,7 @@ void Board::add_component(Position const& pos, ComponentType const* component_ty
     if (!component_type->create_component)
         throw std::runtime_error("Component cannot be initialized (missing `create_component`)");
     components_[pos] = component_type->create_component();
+    sandbox_.rebuild_simulation();
 }
 
 void Board::merge_wires(WireMap const& wm)
@@ -77,18 +80,24 @@ void Board::merge_wires(WireMap const& wm)
     for (auto const& [pos, ws]: wm) {
         wires_[pos].insert(ws.begin(), ws.end());
     }
+    if (!wm.empty())
+        sandbox_.rebuild_simulation();
 }
 
 void Board::clear_tile(Position const& pos)
 {
-    wires_.erase(pos);
-    components_.erase(pos);
+    size_t w = wires_.erase(pos);
+    size_t c = components_.erase(pos);
+    if (w + c > 0)
+        sandbox_.rebuild_simulation();
 }
 
 void Board::rotate_tile(Position const& pos)
 {
-    if (auto it = components_.find(pos); it != components_.end())
+    if (auto it = components_.find(pos); it != components_.end()) {
         it->second->rotate();
+        sandbox_.rebuild_simulation();
+    }
 }
 
 //

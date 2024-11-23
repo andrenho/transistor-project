@@ -22,4 +22,5 @@ void Sandbox::bring_to_front(TopLevel* toplevel)
 
 void Sandbox::rebuild_simulation()
 {
+    printf("SIM\n");
 }
