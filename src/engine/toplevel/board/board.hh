@@ -33,6 +33,7 @@ private:
     void merge_wires(WireMap const& wm);
 
     void clear_tile(Position const& pos);
+    void rotate_tile(Position const& pos);
 
     void draw_board_borders(Graphics& graphics) const;
     void draw_tile(Graphics& graphics, Position const& pos) const;

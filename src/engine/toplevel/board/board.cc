@@ -21,6 +21,9 @@ void Board::event_key_press(Graphics& graphics, uint32_t key, ssize_t mouse_x, s
             graphics.set_cursor(Cursor::Delete);
             clear_tile(tpos);
             break;
+        case 'r':
+            rotate_tile(tpos);
+            break;
         default:
             for (auto const* ct: game_.component_types()) {
                 if (key == ct->key_to_place)
@@ -80,6 +83,12 @@ void Board::clear_tile(Position const& pos)
 {
     wires_.erase(pos);
     components_.erase(pos);
+}
+
+void Board::rotate_tile(Position const& pos)
+{
+    if (auto it = components_.find(pos); it != components_.end())
+        it->second->rotate();
 }
 
 //

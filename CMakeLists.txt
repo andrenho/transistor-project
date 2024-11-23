@@ -84,6 +84,7 @@ add_executable(${CMAKE_PROJECT_NAME}
         src/engine/component/component.cc
         src/exceptions/deserializationerror.hh
         src/engine/toplevel/board/wireconfiguration.cc
+        src/engine/position.cc
 )
 
 b_embed(${CMAKE_PROJECT_NAME} resources/images/bg.jpg)

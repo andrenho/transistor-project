@@ -11,6 +11,8 @@ enum class Direction : uint8_t {
     N = 'N', S = 'S', W = 'W', E='E'
 };
 
+Direction rotate(Direction dir);
+
 enum class Orientation: uint8_t { Horizontal, Vertical };
 
 //---------------------------------------
@@ -18,15 +20,8 @@ enum class Orientation: uint8_t { Horizontal, Vertical };
 struct Position {
     ssize_t x, y;
 
-    std::string serialize() const { return std::to_string(x) + "," + std::to_string(y); }
-    static Position deserialize(std::string const& str) {
-        int find = str.find(',');
-        if (find == std::string::npos) throw DeserializationError();
-        return {
-            .x = std::stoi(str.substr(0, find - 1)),
-            .y = std::stoi(str.substr(find + 1))
-        };
-    }
+    std::string serialize() const;
+    static Position deserialize(std::string const& str);
 
     bool operator==(Position const& other) const { return x == other.x && y == other.y; }
 };
