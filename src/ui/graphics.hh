@@ -12,6 +12,8 @@ enum class Cursor { Normal, Delete };
 struct DrawParameters {
     bool      semitransparent = false;
     Direction direction = Direction::N;
+    int       displacement_x = 0,
+              displacement_y = 0;
 };
 
 class Graphics {

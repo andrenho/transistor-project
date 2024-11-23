@@ -144,7 +144,7 @@ void Board::draw_tile(Graphics& graphics, Position const& pos) const
             std::visit(overloaded {
                 [&](std::vector<Sprite> const& vsp) {
                     for (const Sprite sp: vsp)
-                        graphics.draw(sp, (pos.x + 2) * TILE_SIZE, (pos.y + 2) * TILE_SIZE);
+                        graphics.draw(sp, (pos.x + 2) * TILE_SIZE, (pos.y + 2) * TILE_SIZE, { .direction = it->second->direction() });
                 },
             }, it->second->component_image());
         }

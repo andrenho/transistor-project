@@ -171,7 +171,7 @@ void UI::draw(Sprite sprite, ssize_t x, ssize_t y, DrawParameters const& p) cons
 {
     auto const& r = sprite_coordinates[(size_t) sprite];
     SDL_Rect src { .x = r.x * TILE_SIZE, .y = r.y * TILE_SIZE, .w = r.w * TILE_SIZE, .h = r.h * TILE_SIZE };
-    SDL_Rect dest = { .x = (int) (rel_x_ + x), .y = (int) (rel_y_ + y), .w = src.w, .h = src.h };
+    SDL_Rect dest = { .x = (int) (rel_x_ + x) + p.displacement_x, .y = (int) (rel_y_ + y) + p.displacement_y, .w = src.w, .h = src.h };
 
     SDL_SetTextureAlphaMod(circuit_texture_, p.semitransparent ? 128 : 255);
 
