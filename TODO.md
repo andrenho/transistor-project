@@ -25,7 +25,7 @@ Board serialization:
 
 Components in board:
 - [x] Add/remove components/wires to board
-- [ ] Rotate components
+- [x] Rotate components
 
 # Phase 2 - simulation
 

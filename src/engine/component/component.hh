@@ -23,7 +23,7 @@ public:
 
     virtual ComponentImage  component_image() const = 0;
 
-    void                    rotate() { direction_ = ::rotate(direction_); }
+    void                    rotate() { if (type->physical_characteristics.can_rotate) direction_ = ::rotate(direction_); }
 
     std::string             serialize() const { return type->id + ":" + serialize_component(); }
     [[nodiscard]] Direction direction() const { return direction_; }
