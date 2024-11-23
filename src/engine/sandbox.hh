@@ -16,7 +16,8 @@ public:
         toplevels_.emplace_back(std::make_unique<Board>(*this));
     }
 
-    void rebuild_simulation();
+    void rebuild_simulation() { simulation_.compile(toplevels_); }
+    void cycle()              { simulation_.cycle(); }
 
     [[nodiscard]] std::vector<std::unique_ptr<TopLevel>> const& toplevels() const { return toplevels_; }
     [[nodiscard]] std::optional<TopLevel*> topmost_toplevel_in_pos(ssize_t x, ssize_t y) const;

@@ -29,12 +29,11 @@ Components in board:
 
 # Phase 2 - simulation
 
-- [ ] Testing infrastructure
-- [ ] Serialization
 - [ ] Compilation
 - [ ] Simulation
 - [ ] New components
   - [ ] NPN, PNP, VCC, wire crossing
+- [ ] Serialization
 
 # Phase 3 - circuits QOL
 
