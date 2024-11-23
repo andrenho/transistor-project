@@ -21,7 +21,7 @@ struct PhysicalCharacteristics {
     std::vector<Pin> pins;
 };
 
-struct Component;
+class Component;
 
 struct ComponentType {
     std::string              id;

@@ -22,7 +22,7 @@ public:
 
     [[nodiscard]] bool running() const { return running_; }
 
-    void draw(Sprite sprite, ssize_t x, ssize_t y, bool semitransparent) const override;
+    void draw(Sprite sprite, ssize_t x, ssize_t y, DrawParameters const& p) const override;
     void set_cursor(Cursor cursor) override;
 
 private:

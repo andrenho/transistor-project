@@ -167,13 +167,23 @@ void UI::render_game()
     }
 }
 
-void UI::draw(Sprite sprite, ssize_t x, ssize_t y, bool semitransparent) const
+void UI::draw(Sprite sprite, ssize_t x, ssize_t y, DrawParameters const& p) const
 {
     auto const& r = sprite_coordinates[(size_t) sprite];
     SDL_Rect src { .x = r.x * TILE_SIZE, .y = r.y * TILE_SIZE, .w = r.w * TILE_SIZE, .h = r.h * TILE_SIZE };
     SDL_Rect dest = { .x = (int) (rel_x_ + x), .y = (int) (rel_y_ + y), .w = src.w, .h = src.h };
-    SDL_SetTextureAlphaMod(circuit_texture_, semitransparent ? 128 : 255);
-    SDL_RenderCopy(ren_, circuit_texture_, &src, &dest);
+
+    SDL_SetTextureAlphaMod(circuit_texture_, p.semitransparent ? 128 : 255);
+
+    double angle = 0.0;
+    if (p.direction == Direction::E)
+        angle = 90.0;
+    else if (p.direction == Direction::S)
+        angle = 180.0;
+    else if (p.direction == Direction::W)
+        angle = -90.0;
+
+    SDL_RenderCopyEx(ren_, circuit_texture_, &src, &dest, angle, nullptr, SDL_FLIP_NONE);
 }
 
 void UI::set_cursor(Cursor cursor)

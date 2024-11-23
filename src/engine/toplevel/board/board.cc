@@ -168,7 +168,7 @@ void Board::draw_wires(Graphics& graphics, Position const& pos, WireSet const& w
         auto it = wire_sprites.find(wc);
         if (it == wire_sprites.end())
             throw std::runtime_error("Wire configuration not found");
-        graphics.draw(it->second, (pos.x + 2) * TILE_SIZE, (pos.y + 2) * TILE_SIZE, semitransparent);
+        graphics.draw(it->second, (pos.x + 2) * TILE_SIZE, (pos.y + 2) * TILE_SIZE, { .semitransparent = semitransparent });
     }
 }
 
