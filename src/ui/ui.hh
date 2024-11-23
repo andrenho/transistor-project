@@ -2,6 +2,7 @@
 #define UI_UI_HH_
 
 #include <chrono>
+#include <unordered_map>
 
 #include "graphics.hh"
 #include "engine/game.hh"
@@ -22,6 +23,7 @@ public:
     [[nodiscard]] bool running() const { return running_; }
 
     void draw(Sprite sprite, ssize_t x, ssize_t y, bool semitransparent) const override;
+    void set_cursor(Cursor cursor) override;
 
 private:
     void load_resources();
@@ -42,6 +44,7 @@ private:
     ssize_t rel_x_ = 0, rel_y_ = 0;
 
     std::optional<TopLevel*> moving_toplevel_ {};
+    std::unordered_map<Cursor, struct SDL_Cursor*> cursors_;
 };
 
 #endif

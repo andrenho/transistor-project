@@ -24,12 +24,13 @@ Board serialization:
 - [x] Component serialization
 
 Components in board:
-- [ ] Add/remove components/wires to board
+- [x] Add/remove components/wires to board
 - [ ] Rotate components
 
 # Phase 2 - simulation
 
 - [ ] Testing infrastructure
+- [ ] Serialization
 - [ ] Compilation
 - [ ] Simulation
 - [ ] New components

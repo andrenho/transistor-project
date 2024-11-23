@@ -9,31 +9,48 @@
 // EVENTS
 //
 
-void Board::event_key_press(uint32_t key, ssize_t mouse_x, ssize_t mouse_y)
+void Board::event_key_press(Graphics& graphics, uint32_t key, ssize_t mouse_x, ssize_t mouse_y)
 {
-    if (key == 'w') {
-        wire_management_.start_drawing(mouse_to_tile(mouse_x, mouse_y), WireWidth::W1, WireSide::Top);
-    } else {
-        for (auto const* ct: game_.component_types()) {
-            if (key == ct->key_to_place)
-                add_component(mouse_to_tile(mouse_x, mouse_y), ct);
-        }
+    auto tpos = mouse_to_tile(mouse_x, mouse_y);
+    switch (key) {
+        case 'w':
+            wire_management_.start_drawing(tpos, WireWidth::W1, WireSide::Top);
+            break;
+        case 'x':
+            clearing_tiles_ = true;
+            graphics.set_cursor(Cursor::Delete);
+            clear_tile(tpos);
+            break;
+        default:
+            for (auto const* ct: game_.component_types()) {
+                if (key == ct->key_to_place)
+                    add_component(tpos, ct);
+            }
     }
 }
 
-void Board::event_key_release(uint32_t key, ssize_t mouse_x, ssize_t mouse_y)
+void Board::event_key_release(Graphics& graphics, uint32_t key, ssize_t mouse_x, ssize_t mouse_y)
 {
+    auto tpos = mouse_to_tile(mouse_x, mouse_y);
     if (key == 'w') {
-        merge_wires(wire_management_.stop_drawing(mouse_to_tile(mouse_x, mouse_y)));
+        merge_wires(wire_management_.stop_drawing(tpos));
+    } else if (key == 'x') {
+        clearing_tiles_ = false;
+        graphics.set_cursor(Cursor::Normal);
     }
 }
 
-void Board::event_mouse_move(ssize_t x, ssize_t y, ssize_t xrel, ssize_t yrel)
+void Board::event_mouse_move(Graphics& graphics, ssize_t x, ssize_t y, ssize_t xrel, ssize_t yrel)
 {
-    wire_management_.set_current_end(mouse_to_tile(x, y));
+    auto tpos = mouse_to_tile(x, y);
+
+    wire_management_.set_current_end(tpos);
+
+    if (clearing_tiles_)
+        clear_tile(tpos);
 }
 
-void Board::event_mouse_click(ssize_t x, ssize_t y, MouseButton button)
+void Board::event_mouse_click(Graphics& graphics, ssize_t x, ssize_t y, MouseButton button)
 {
     Position tile = mouse_to_tile(x, y);
     if (auto it = components_.find(tile); it != components_.end()) {
@@ -57,6 +74,12 @@ void Board::merge_wires(WireMap const& wm)
     for (auto const& [pos, ws]: wm) {
         wires_[pos].insert(ws.begin(), ws.end());
     }
+}
+
+void Board::clear_tile(Position const& pos)
+{
+    wires_.erase(pos);
+    components_.erase(pos);
 }
 
 //

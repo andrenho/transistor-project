@@ -18,10 +18,10 @@ public:
 
     void draw(Graphics& graphics) const override;
 
-    void event_key_press(uint32_t key, ssize_t mouse_x, ssize_t mouse_y) override;
-    void event_key_release(uint32_t key, ssize_t mouse_x, ssize_t mouse_y) override;
-    void event_mouse_move(ssize_t x, ssize_t y, ssize_t xrel, ssize_t yrel) override;
-    void event_mouse_click(ssize_t x, ssize_t y, MouseButton button) override;
+    void event_key_press(Graphics& graphics, uint32_t key, ssize_t mouse_x, ssize_t mouse_y) override;
+    void event_key_release(Graphics& graphics, uint32_t key, ssize_t mouse_x, ssize_t mouse_y) override;
+    void event_mouse_move(Graphics& graphics, ssize_t x, ssize_t y, ssize_t xrel, ssize_t yrel) override;
+    void event_mouse_click(Graphics& graphics, ssize_t x, ssize_t y, MouseButton button) override;
 
     [[nodiscard]] WireMap const& wires() const { return wires_; }
 
@@ -32,6 +32,8 @@ private:
     void add_component(Position const& pos, ComponentType const* component_type);
     void merge_wires(WireMap const& wm);
 
+    void clear_tile(Position const& pos);
+
     void draw_board_borders(Graphics& graphics) const;
     void draw_tile(Graphics& graphics, Position const& pos) const;
     void draw_wires(Graphics& graphics, Position const& pos, WireSet const& wcs, bool semitransparent) const;
@@ -41,6 +43,7 @@ private:
     WireManagement wire_management_;
     WireMap        wires_ {};
     ComponentMap   components_ {};
+    bool           clearing_tiles_ = false;
 };
 
 #endif //BOARD_HH

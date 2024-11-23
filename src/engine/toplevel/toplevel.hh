@@ -15,11 +15,11 @@ public:
 
     virtual void draw(Graphics& graphics) const = 0;
 
-    virtual void event_mouse_click(ssize_t x, ssize_t y, MouseButton button) {}
-    virtual void event_mouse_release(ssize_t x, ssize_t y, MouseButton button) {}
-    virtual void event_mouse_move(ssize_t x, ssize_t y, ssize_t xrel, ssize_t yrel) {}
-    virtual void event_key_press(uint32_t key, ssize_t mouse_x, ssize_t mouse_y) {}
-    virtual void event_key_release(uint32_t key, ssize_t mouse_x, ssize_t mouse_y) {}
+    virtual void event_mouse_click(Graphics& graphics, ssize_t x, ssize_t y, MouseButton button) {}
+    virtual void event_mouse_release(Graphics& graphics, ssize_t x, ssize_t y, MouseButton button) {}
+    virtual void event_mouse_move(Graphics& graphics, ssize_t x, ssize_t y, ssize_t xrel, ssize_t yrel) {}
+    virtual void event_key_press(Graphics& graphics, uint32_t key, ssize_t mouse_x, ssize_t mouse_y) {}
+    virtual void event_key_release(Graphics& graphics, uint32_t key, ssize_t mouse_x, ssize_t mouse_y) {}
 
     virtual ~TopLevel() = default;
 

@@ -46,11 +46,17 @@ void UI::load_resources()
 
     auto font_file = b::embed<"resources/fonts/04B_03__.TTF">();
     font_ = TTF_OpenFontRW(SDL_RWFromMem((void *) font_file.data(), (int) font_file.size()), 1, 16);
+
+    cursors_[Cursor::Normal] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
+    cursors_[Cursor::Delete] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_HAND);
 }
 
 
 UI::~UI()
 {
+    for (auto [i, cursor]: cursors_)
+        if (cursor)
+            SDL_FreeCursor(cursor);
     if (font_)            TTF_CloseFont(font_);
     if (bg_texture_)      SDL_DestroyTexture(bg_texture_);
     if (circuit_texture_) SDL_DestroyTexture(circuit_texture_);
@@ -78,7 +84,7 @@ void UI::update(Duration timestep)
                         moving_toplevel_ = *toplevel;
                         SDL_ShowCursor(SDL_DISABLE);
                     } else {
-                        (*toplevel)->event_mouse_click(e.button.x - (*toplevel)->position_x, e.button.y - (*toplevel)->position_y, (MouseButton) e.button.button);
+                        (*toplevel)->event_mouse_click(*this, e.button.x - (*toplevel)->position_x, e.button.y - (*toplevel)->position_y, (MouseButton) e.button.button);
                     }
                 }
                 break;
@@ -89,13 +95,13 @@ void UI::update(Duration timestep)
                     SDL_ShowCursor(SDL_ENABLE);
                 } else {
                     for (auto& tl: game_.toplevels())
-                        tl->event_mouse_release(e.button.x - tl->position_x, e.button.y - tl->position_y, (MouseButton) e.button.button);
+                        tl->event_mouse_release(*this, e.button.x - tl->position_x, e.button.y - tl->position_y, (MouseButton) e.button.button);
                 }
                 break;
             case SDL_MOUSEMOTION: {
                 auto toplevel = game_.topmost_toplevel_in_pos(e.motion.x, e.motion.y);
                 if (toplevel)
-                    (*toplevel)->event_mouse_move(e.motion.x - (*toplevel)->position_x, e.motion.y - (*toplevel)->position_y, e.motion.xrel, e.motion.yrel);
+                    (*toplevel)->event_mouse_move(*this, e.motion.x - (*toplevel)->position_x, e.motion.y - (*toplevel)->position_y, e.motion.xrel, e.motion.yrel);
                 if (moving_toplevel_)
                     move_toplevel(*moving_toplevel_, e.motion.xrel, e.motion.yrel);
                 break;
@@ -104,7 +110,7 @@ void UI::update(Duration timestep)
                 int mx, my;
                 SDL_GetMouseState(&mx, &my);
                 for (auto& tl: game_.toplevels())
-                    tl->event_key_release(e.key.keysym.sym, mx - tl->position_x, my - tl->position_y);
+                    tl->event_key_release(*this, e.key.keysym.sym, mx - tl->position_x, my - tl->position_y);
                 break;
             }
             case SDL_KEYDOWN: {
@@ -113,7 +119,7 @@ void UI::update(Duration timestep)
                     SDL_GetMouseState(&mx, &my);
                     auto toplevel = game_.topmost_toplevel_in_pos(mx, my);
                     if (toplevel) {
-                        (*toplevel)->event_key_press(e.key.keysym.sym, mx - (*toplevel)->position_x, my - (*toplevel)->position_y);
+                        (*toplevel)->event_key_press(*this, e.key.keysym.sym, mx - (*toplevel)->position_x, my - (*toplevel)->position_y);
                     }
                 }
                 break;
@@ -168,4 +174,11 @@ void UI::draw(Sprite sprite, ssize_t x, ssize_t y, bool semitransparent) const
     SDL_Rect dest = { .x = (int) (rel_x_ + x), .y = (int) (rel_y_ + y), .w = src.w, .h = src.h };
     SDL_SetTextureAlphaMod(circuit_texture_, semitransparent ? 128 : 255);
     SDL_RenderCopy(ren_, circuit_texture_, &src, &dest);
+}
+
+void UI::set_cursor(Cursor cursor)
+{
+    try {
+        SDL_SetCursor(cursors_.at(cursor));
+    } catch (std::out_of_range&) {}
 }
