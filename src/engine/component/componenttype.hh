@@ -2,6 +2,7 @@
 #define COMPONENTTYPE_HH_
 
 #include <functional>
+#include <optional>
 #include <variant>
 #include <vector>
 
