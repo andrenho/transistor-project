@@ -23,6 +23,7 @@ struct Position {
     std::string serialize() const;
     static Position deserialize(std::string const& str);
 
+    Position operator+(Position const& p) const { return { x + p.x, y + p.y }; }
     bool operator==(Position const& other) const { return x == other.x && y == other.y; }
 };
 
@@ -41,6 +42,7 @@ struct SubPosition {
     Direction dir;
 
     bool operator==(SubPosition const& other) const { return pos == other.pos && dir == other.dir; }
+    SubPosition operator+(Position const& o_pos) const { return { pos + o_pos, dir }; }
 };
 
 template<>

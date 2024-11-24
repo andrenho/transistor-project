@@ -28,7 +28,7 @@ public:
     std::string             serialize() const { return type->id + ":" + serialize_component(); }
     [[nodiscard]] Direction direction() const { return direction_; }
 
-    std::vector<SubPosition> pin_positions() const;
+    std::vector<SubPosition> pin_relative_positions() const;
 
     virtual ~Component() = default;
 

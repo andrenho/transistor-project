@@ -16,7 +16,6 @@ struct Pin {
 struct Connection {
     std::vector<Pin>                pins;
     std::unordered_set<SubPosition> wires;
-    bool                            value;
 };
 
 std::vector<Connection> compile(Sandbox const& sandbox);
