@@ -27,6 +27,7 @@ void WireManagement::set_current_end(Position const& end_pos)
 
 WireMap WireManagement::stop_drawing(Position const& pos)
 {
+    set_current_end(pos);
     auto w = current_drawing();
     drawing_wire_.reset();
     return w;

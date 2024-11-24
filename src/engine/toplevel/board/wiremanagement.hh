@@ -12,6 +12,8 @@ public:
     void    set_current_end(Position const& pos);
     WireMap stop_drawing(Position const& pos);
 
+    void    set_orientation(Orientation orientation) { if (drawing_wire_) drawing_wire_->orientation = orientation; }
+
     [[nodiscard]] WireMap current_drawing() const;
 
 private:

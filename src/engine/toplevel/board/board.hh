@@ -16,6 +16,9 @@ public:
 
     void draw(Graphics& graphics) const override;
 
+    void add_component(Position const& pos, ComponentType const* component_type);
+    void add_wire(Position const& start, Position const& end, Orientation orientation, WireWidth width, WireSide side);
+
     void event_key_press(Graphics& graphics, uint32_t key, ssize_t mouse_x, ssize_t mouse_y) override;
     void event_key_release(Graphics& graphics, uint32_t key, ssize_t mouse_x, ssize_t mouse_y) override;
     void event_mouse_move(Graphics& graphics, ssize_t x, ssize_t y, ssize_t xrel, ssize_t yrel) override;
@@ -28,7 +31,6 @@ private:
     ssize_t board_w_ = 10;
     ssize_t board_h_ = 10;
 
-    void add_component(Position const& pos, ComponentType const* component_type);
     void merge_wires(WireMap const& wm);
 
     void clear_tile(Position const& pos);

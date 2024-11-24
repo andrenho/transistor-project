@@ -135,8 +135,10 @@ add_custom_command(TARGET leaks-gen-suppressions
 
 add_executable(${PROJECT_NAME}-tests
         test/doctest.h
-        test/compilation.cc
+        test/main.cc
         ${ENGINE_SRC}
+        test/compilation.cc
+        test/board.cc
 )
 target_compile_definitions(${PROJECT_NAME}-tests PUBLIC PROJECT_NAME=\"${PROJECT_NAME}-tests\" ${DEF})
 target_compile_options(${PROJECT_NAME}-tests PRIVATE ${warnings})

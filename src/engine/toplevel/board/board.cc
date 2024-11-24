@@ -100,6 +100,14 @@ void Board::rotate_tile(Position const& pos)
     }
 }
 
+// used only by tests for now
+void Board::add_wire(Position const& start, Position const& end, Orientation orientation, WireWidth width, WireSide side)
+{
+    wire_management_.start_drawing(start, width, side);
+    wire_management_.set_orientation(orientation);
+    merge_wires(wire_management_.stop_drawing(end));
+}
+
 //
 // DRAWING
 //
