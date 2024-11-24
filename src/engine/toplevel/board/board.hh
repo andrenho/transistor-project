@@ -21,8 +21,8 @@ public:
     void event_mouse_move(Graphics& graphics, ssize_t x, ssize_t y, ssize_t xrel, ssize_t yrel) override;
     void event_mouse_click(Graphics& graphics, ssize_t x, ssize_t y, MouseButton button) override;
 
-    [[nodiscard]] WireMap const&      wires() const { return wires_; }
-    [[nodiscard]] ComponentMap const& components() const { return components_; }
+    [[nodiscard]] WireMap const&      wires() const override { return wires_; }
+    [[nodiscard]] ComponentMap const& components() const override { return components_; }
 
 private:
     ssize_t board_w_ = 10;

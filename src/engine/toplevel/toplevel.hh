@@ -1,6 +1,7 @@
 #ifndef TOPLEVEL_HH
 #define TOPLEVEL_HH
 
+#include "board/wireconfiguration.hh"
 #include "ui/graphics.hh"
 
 using ComponentMap = std::unordered_map<Position, std::unique_ptr<Component>>;

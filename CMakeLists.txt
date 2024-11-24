@@ -139,3 +139,13 @@ set(CPACK_SOURCE_GENERATOR "TBZ2")
 set(CPACK_SOURCE_IGNORE_FILES .git/ .github/ .idea/ _CPack_Packages/ ${CMAKE_BINARY_DIR}/ ${PROJECT_BINARY_DIR}/)
 set(CPACK_SOURCE_PACKAGE_FILE_NAME ${CMAKE_PROJECT_NAME}-${CMAKE_PROJECT_VERSION})
 include(CPack)
+
+# tests
+
+add_executable(transistor-tests
+        test/doctest.h
+        test/compilation.cc
+)
+
+enable_testing()
+add_test(NAME transistor-tests COMMAND transistor-tests)
