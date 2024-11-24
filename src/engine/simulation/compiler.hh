@@ -10,7 +10,7 @@ struct Pin {
     Component*  component;
     uint8_t     pin_no;
     SubPosition spos;
-    bool operator==(Pin const& other) const { return other.component == component && other.pin_no == pin_no; }
+    bool operator==(Pin const& other) const { return other.component == component && other.pin_no == pin_no && other.spos == spos; }
 };
 
 struct Connection {

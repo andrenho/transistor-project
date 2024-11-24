@@ -39,6 +39,8 @@ struct std::hash<Position> {
 struct SubPosition {
     Position  pos;
     Direction dir;
+
+    bool operator==(SubPosition const& other) const { return pos == other.pos && dir == other.dir; }
 };
 
 template<>
