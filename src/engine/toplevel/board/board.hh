@@ -16,8 +16,8 @@ public:
 
     void draw(Graphics& graphics) const override;
 
-    void add_component(Position const& pos, ComponentType const* component_type);
-    void add_wire(Position const& start, Position const& end, Orientation orientation, WireWidth width, WireSide side);
+    Component* add_component(Position const& pos, ComponentType const* component_type);
+    void       add_wire(Position const& start, Position const& end, Orientation orientation, WireWidth width, WireSide side);
 
     void event_key_press(Graphics& graphics, uint32_t key, ssize_t mouse_x, ssize_t mouse_y) override;
     void event_key_release(Graphics& graphics, uint32_t key, ssize_t mouse_x, ssize_t mouse_y) override;

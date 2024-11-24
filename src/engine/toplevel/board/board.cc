@@ -67,12 +67,13 @@ void Board::event_mouse_click(Graphics& graphics, ssize_t x, ssize_t y, MouseBut
 // MODIFY BOARD
 //
 
-void Board::add_component(Position const& pos, ComponentType const* component_type)
+Component* Board::add_component(Position const& pos, ComponentType const* component_type)
 {
     if (!component_type->create_component)
         throw std::runtime_error("Component cannot be initialized (missing `create_component`)");
-    components_[pos] = component_type->create_component();
+    auto it = components_.emplace(pos, component_type->create_component());
     sandbox_.rebuild_simulation();
+    return it.first->second.get();
 }
 
 void Board::merge_wires(WireMap const& wm)

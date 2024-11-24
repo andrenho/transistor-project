@@ -2,7 +2,6 @@
 
 #include "engine/sandbox.hh"
 #include "engine/component/button.hh"
-#include "engine/component/led.hh"
 
 #include <ranges>
 namespace r = std::ranges;

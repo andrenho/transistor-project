@@ -91,6 +91,8 @@ add_executable(${CMAKE_PROJECT_NAME}
         src/ui/graphics.hh
         src/ui/spritesheet.hh
         ${ENGINE_SRC}
+        src/engine/simulation/compiler.cc
+        src/engine/simulation/compiler.hh
 )
 
 b_embed(${CMAKE_PROJECT_NAME} resources/images/bg.jpg)
