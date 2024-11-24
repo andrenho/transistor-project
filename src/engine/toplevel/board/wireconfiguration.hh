@@ -7,9 +7,12 @@
 #include <unordered_set>
 
 #include "engine/position.hh"
+#include "engine/component/component.hh"
 
 enum class WireWidth : uint8_t { W1 = '1' };
 enum class WireSide : uint8_t { Top = 't', Bottom = 'b' };
+
+using ComponentMap = std::unordered_map<Position, std::unique_ptr<Component>>;
 
 struct WireConfiguration {
     WireWidth width;

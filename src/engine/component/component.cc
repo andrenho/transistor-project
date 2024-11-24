@@ -17,3 +17,8 @@ std::unique_ptr<Component> Component::deserialize(std::vector<ComponentType*> co
     std::cerr << "Unsupported component: " << serial << "\n";
     throw DeserializationError();
 }
+
+std::vector<SubPosition> Component::pin_positions() const
+{
+    return {};
+}

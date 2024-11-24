@@ -28,6 +28,8 @@ public:
     std::string             serialize() const { return type->id + ":" + serialize_component(); }
     [[nodiscard]] Direction direction() const { return direction_; }
 
+    std::vector<SubPosition> pin_positions() const;
+
     virtual ~Component() = default;
 
     ComponentType const* type;

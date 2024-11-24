@@ -19,8 +19,3 @@ void Sandbox::bring_to_front(TopLevel* toplevel)
     if (it != toplevels_.end())
         std::rotate(toplevels_.begin(), it, it + 1);
 }
-
-void Sandbox::rebuild_simulation()
-{
-    printf("SIM\n");
-}

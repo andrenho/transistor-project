@@ -3,6 +3,8 @@
 
 #include "ui/graphics.hh"
 
+using ComponentMap = std::unordered_map<Position, std::unique_ptr<Component>>;
+
 class Sandbox;
 
 class TopLevel {
@@ -20,6 +22,9 @@ public:
     virtual void event_mouse_move(Graphics& graphics, ssize_t x, ssize_t y, ssize_t xrel, ssize_t yrel) {}
     virtual void event_key_press(Graphics& graphics, uint32_t key, ssize_t mouse_x, ssize_t mouse_y) {}
     virtual void event_key_release(Graphics& graphics, uint32_t key, ssize_t mouse_x, ssize_t mouse_y) {}
+
+    [[nodiscard]] virtual WireMap const&      wires() const { static WireMap wm; return wm; }
+    [[nodiscard]] virtual ComponentMap const& components() const { static ComponentMap cm; return cm; }
 
     virtual ~TopLevel() = default;
 

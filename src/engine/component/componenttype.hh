@@ -10,7 +10,7 @@
 
 enum PinType { Input, Output, InputOutput };
 
-struct Pin {
+struct PinConfig {
     std::variant<Position, SubPosition> pos;
     PinType                             type;
 };
@@ -19,7 +19,7 @@ struct PhysicalCharacteristics {
     uint8_t          size_w = 1;
     uint8_t          size_h = 1;
     bool             can_rotate;
-    std::vector<Pin> pins;
+    std::vector<PinConfig> pins;
 };
 
 class Component;
