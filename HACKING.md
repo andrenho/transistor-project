@@ -23,3 +23,20 @@ The game loop has two steps:
             `Graphics`, where each element is actually drawn.
 
 Most of the drawing is based on `SpriteSheet`, which contains the texture atlas for the images in the game.
+
+```mermaid
+classDiagram
+  namespace GUI {
+    class Graphics
+    class UI
+    class Sprite
+  }
+  namespace Engine {
+    class Sandbox
+    class TopLevel
+  }
+  Graphics <|-- UI
+  Sandbox <..> UI
+  Sprite -- Graphics
+  Sandbox "1" -- "n" TopLevel
+```
