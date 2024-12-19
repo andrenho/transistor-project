@@ -120,4 +120,24 @@ TEST_SUITE("Compilation")
             CHECK(wire_pos.size() == 4);
         }
     }
+
+    TEST_CASE("wire crossing (connected)")
+    {
+        Sandbox sandbox;
+        auto board = dynamic_cast<Board*>(sandbox.toplevels().at(0).get());
+        board->add_wire({ 1, 1 }, { 3, 1 }, Orientation::Horizontal, WireWidth::W1, WireLayer::Top);
+        board->add_wire({ 0, 2 }, { 2, 2 }, Orientation::Vertical, WireWidth::W1, WireLayer::Top);
+
+        SUBCASE("crossing wire")
+        {
+            const auto wire_pos = compiler::find_full_wire(*board, { .pos = {1, 1}, .dir = Direction::S }, WireLayer::Top);
+
+            CHECK(wire_pos.contains({ .pos = { 2, 1 }, .dir = Direction::N }));
+            CHECK(wire_pos.contains({ .pos = { 2, 1 }, .dir = Direction::S }));
+            CHECK(wire_pos.contains({ .pos = { 2, 1 }, .dir = Direction::W }));
+            CHECK(wire_pos.contains({ .pos = { 2, 1 }, .dir = Direction::E }));
+
+            CHECK(wire_pos.size() == 8);
+        }
+    }
 }
