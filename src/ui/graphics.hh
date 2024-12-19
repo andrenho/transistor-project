@@ -4,7 +4,7 @@
 #include <chrono>
 
 #include "spritesheet.hh"
-#include "engine/position.hh"
+#include "engine/geometry/direction.hh"
 
 enum class MouseButton { Left=1, Middle=2, Right=3 };
 enum class Cursor { Normal, Delete };

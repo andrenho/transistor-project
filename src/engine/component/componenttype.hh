@@ -6,7 +6,8 @@
 #include <variant>
 #include <vector>
 
-#include "engine/position.hh"
+#include "engine/geometry/position.hh"
+#include "engine/geometry/subposition.hh"
 
 enum PinType { Input, Output, InputOutput };
 

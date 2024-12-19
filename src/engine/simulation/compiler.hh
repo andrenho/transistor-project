@@ -16,6 +16,8 @@ struct Pin {
 struct Connection {
     std::vector<Pin>                pins;
     std::unordered_set<SubPosition> wires;
+    WireWidth                       wire_width;
+    WireLayer                       wire_layer;
 };
 
 std::vector<Connection> compile(Sandbox const& sandbox);

@@ -2,9 +2,7 @@
 #define SIMULATION_HH
 
 #include <vector>
-#include <unordered_set>
 
-#include "engine/component/component.hh"
 #include "engine/toplevel/toplevel.hh"
 
 class Simulation {

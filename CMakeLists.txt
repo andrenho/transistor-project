@@ -64,7 +64,6 @@ set(ENGINE_SRC
         src/engine/toplevel/board/board.hh
         src/engine/component/component.hh
         src/engine/sandbox.hh
-        src/engine/position.hh
         src/engine/sandbox.cc
         src/engine/sandbox.cc
         src/engine/toplevel/board/wiremanagement.cc
@@ -79,9 +78,15 @@ set(ENGINE_SRC
         src/engine/component/component.cc
         src/exceptions/deserializationerror.hh
         src/engine/toplevel/board/wireconfiguration.cc
-        src/engine/position.cc
+        src/engine/geometry/position.hh
+        src/engine/geometry/position.cc
         src/engine/simulation/simulation.cc
         src/engine/simulation/simulation.hh
+        src/engine/simulation/compiler.cc
+        src/engine/simulation/compiler.hh
+        src/engine/geometry/direction.cc
+        src/engine/geometry/direction.hh
+        src/engine/geometry/subposition.hh
 )
 
 add_executable(${CMAKE_PROJECT_NAME}
@@ -91,8 +96,6 @@ add_executable(${CMAKE_PROJECT_NAME}
         src/ui/graphics.hh
         src/ui/spritesheet.hh
         ${ENGINE_SRC}
-        src/engine/simulation/compiler.cc
-        src/engine/simulation/compiler.hh
 )
 
 b_embed(${CMAKE_PROJECT_NAME} resources/images/bg.jpg)

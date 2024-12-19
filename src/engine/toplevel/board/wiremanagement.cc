@@ -2,7 +2,7 @@
 
 #include <vector>
 
-void WireManagement::start_drawing(Position const& pos, WireWidth width, WireSide side)
+void WireManagement::start_drawing(Position const& pos, WireWidth width, WireLayer side)
 {
     drawing_wire_ = { .start_pos = pos, .end_pos = pos, .width = width, .side = side };
 }
@@ -80,7 +80,7 @@ WireMap WireManagement::current_drawing() const
     for (auto const& sp: vsp)
         wm[sp.pos].emplace(WireConfiguration {
             .width = drawing_wire_->width,
-            .side = drawing_wire_->side,
+            .layer = drawing_wire_->side,
             .dir = sp.dir,
             .value = false,
         });

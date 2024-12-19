@@ -4,7 +4,7 @@
 #include "wireconfiguration.hh"
 #include "wiremanagement.hh"
 #include "../toplevel.hh"
-#include "engine/position.hh"
+#include "engine/geometry/position.hh"
 #include "engine/component/component.hh"
 
 class Board : public TopLevel {
@@ -17,12 +17,14 @@ public:
     void draw(Graphics& graphics) const override;
 
     Component* add_component(Position const& pos, ComponentType const* component_type);
-    void       add_wire(Position const& start, Position const& end, Orientation orientation, WireWidth width, WireSide side);
+    void       add_wire(Position const& start, Position const& end, Orientation orientation, WireWidth width, WireLayer side);
 
     void event_key_press(Graphics& graphics, uint32_t key, ssize_t mouse_x, ssize_t mouse_y) override;
     void event_key_release(Graphics& graphics, uint32_t key, ssize_t mouse_x, ssize_t mouse_y) override;
     void event_mouse_move(Graphics& graphics, ssize_t x, ssize_t y, ssize_t xrel, ssize_t yrel) override;
     void event_mouse_click(Graphics& graphics, ssize_t x, ssize_t y, MouseButton button) override;
+
+    [[nodiscard]] bool contains_wire(SubPosition const& pos, WireLayer layer) const;
 
     [[nodiscard]] WireMap const&      wires() const override { return wires_; }
     [[nodiscard]] ComponentMap const& components() const override { return components_; }

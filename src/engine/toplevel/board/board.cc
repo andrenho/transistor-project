@@ -1,9 +1,13 @@
 #include "board.hh"
 
+#include <algorithm>
+#include <ranges>
 #include <stdexcept>
 
 #include "engine/sandbox.hh"
 #include "util/visitor.hh"
+
+namespace r = std::ranges;
 
 //
 // EVENTS
@@ -14,7 +18,7 @@ void Board::event_key_press(Graphics& graphics, uint32_t key, ssize_t mouse_x, s
     auto tpos = mouse_to_tile(mouse_x, mouse_y);
     switch (key) {
         case 'w':
-            wire_management_.start_drawing(tpos, WireWidth::W1, WireSide::Top);
+            wire_management_.start_drawing(tpos, WireWidth::W1, WireLayer::Top);
             break;
         case 'x':
             clearing_tiles_ = true;
@@ -102,7 +106,7 @@ void Board::rotate_tile(Position const& pos)
 }
 
 // used only by tests for now
-void Board::add_wire(Position const& start, Position const& end, Orientation orientation, WireWidth width, WireSide side)
+void Board::add_wire(Position const& start, Position const& end, Orientation orientation, WireWidth width, WireLayer side)
 {
     wire_management_.start_drawing(start, width, side);
     wire_management_.set_orientation(orientation);
@@ -176,14 +180,14 @@ void Board::draw_tile(Graphics& graphics, Position const& pos) const
 void Board::draw_wires(Graphics& graphics, Position const& pos, WireSet const& wcs, bool semitransparent) const
 {
     static const std::unordered_map<WireConfiguration, Sprite> wire_sprites {
-        { { WireWidth::W1, WireSide::Top, Direction::N, true }, Sprite::WireTopOnNorth_1 },
-        { { WireWidth::W1, WireSide::Top, Direction::S, true }, Sprite::WireTopOnSouth_1 },
-        { { WireWidth::W1, WireSide::Top, Direction::W, true }, Sprite::WireTopOnWest_1 },
-        { { WireWidth::W1, WireSide::Top, Direction::E, true }, Sprite::WireTopOnEast_1 },
-        { { WireWidth::W1, WireSide::Top, Direction::N, false }, Sprite::WireTopOffNorth_1 },
-        { { WireWidth::W1, WireSide::Top, Direction::S, false }, Sprite::WireTopOffSouth_1 },
-        { { WireWidth::W1, WireSide::Top, Direction::W, false }, Sprite::WireTopOffWest_1 },
-        { { WireWidth::W1, WireSide::Top, Direction::E, false }, Sprite::WireTopOffEast_1 },
+        { { WireWidth::W1, WireLayer::Top, Direction::N, true }, Sprite::WireTopOnNorth_1 },
+        { { WireWidth::W1, WireLayer::Top, Direction::S, true }, Sprite::WireTopOnSouth_1 },
+        { { WireWidth::W1, WireLayer::Top, Direction::W, true }, Sprite::WireTopOnWest_1 },
+        { { WireWidth::W1, WireLayer::Top, Direction::E, true }, Sprite::WireTopOnEast_1 },
+        { { WireWidth::W1, WireLayer::Top, Direction::N, false }, Sprite::WireTopOffNorth_1 },
+        { { WireWidth::W1, WireLayer::Top, Direction::S, false }, Sprite::WireTopOffSouth_1 },
+        { { WireWidth::W1, WireLayer::Top, Direction::W, false }, Sprite::WireTopOffWest_1 },
+        { { WireWidth::W1, WireLayer::Top, Direction::E, false }, Sprite::WireTopOffEast_1 },
     };
 
     for (WireConfiguration const& wc: wcs) {
@@ -200,4 +204,15 @@ Position Board::mouse_to_tile(ssize_t mx, ssize_t my) const
         .x = (ssize_t) (mx / TILE_SIZE / zoom - 2),
         .y = (ssize_t) (my / TILE_SIZE / zoom - 2),
     };
+}
+
+bool Board::contains_wire(SubPosition const& pos, WireLayer layer) const
+{
+    try {
+        auto wires = wires_.at(pos.pos);
+        auto it = r::find_if(wires, [&](WireConfiguration const& wc) { return wc.dir == pos.dir && wc.layer == layer; });
+        return it != wires.end();
+    } catch (std::out_of_range&) {
+        return false;
+    }
 }

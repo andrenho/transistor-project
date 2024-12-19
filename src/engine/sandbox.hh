@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "component/componenttype.hh"
+#include "geometry/position.hh"
 #include "simulation/simulation.hh"
 #include "toplevel/toplevel.hh"
 #include "toplevel/board/board.hh"

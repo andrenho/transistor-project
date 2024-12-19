@@ -4,11 +4,11 @@
 #include <optional>
 
 #include "wireconfiguration.hh"
-#include "engine/position.hh"
+#include "engine/geometry/position.hh"
 
 class WireManagement {
 public:
-    void    start_drawing(Position const& pos, WireWidth width, WireSide side);
+    void    start_drawing(Position const& pos, WireWidth width, WireLayer side);
     void    set_current_end(Position const& pos);
     WireMap stop_drawing(Position const& pos);
 
@@ -21,7 +21,7 @@ private:
         Position                   start_pos;
         Position                   end_pos;
         WireWidth                  width;
-        WireSide                   side;
+        WireLayer                   side;
         std::optional<Orientation> orientation {};
     };
     std::optional<TempWire> drawing_wire_;

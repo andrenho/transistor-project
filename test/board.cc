@@ -28,12 +28,12 @@ TEST_SUITE("Board")
 
         Sandbox sandbox;
         Board* board = dynamic_cast<Board*>(sandbox.toplevels().at(0).get());
-        board->add_wire({ 1, 1 }, { 3, 2 }, Orientation::Horizontal, WireWidth::W1, WireSide::Top);
+        board->add_wire({ 1, 1 }, { 3, 2 }, Orientation::Horizontal, WireWidth::W1, WireLayer::Top);
 
         /***1***2***3**
          1* --+---+-. *
           **********|**
-         2*   *   * | *
+         2*   *   * ' *
           *************/
 
         auto const& wires = board->wires();
